@@ -1,0 +1,112 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Edit Ordering Service</h4>
+             <button class="btn" (click)="addOrdering()">Save</button>
+          </div>
+        </div>
+
+        <form [formGroup]="orderingForm">
+          <div class="col-12">
+            <div class="basic-info">
+              <div class="form-group">
+                <label for="order-name">Name :</label>
+                <div>
+                  <input type="text" class="form-control" formControlName="name" id="order-name"
+                    placeholder="Order Name">
+
+                  <span class="error"
+                    *ngIf="((orderingForm.controls.name.touched) && (orderingForm.controls.name.errors?.required))">Please
+                    enter name
+                  </span>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label for="radio-buttons">Type :</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" formControlName="ordererType" id="exampleRadios1"
+                    value="1" checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                    Raft
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" formControlName="ordererType" id="exampleRadios2"
+                    value="0">
+                  <label class="form-check-label" for="exampleRadios2">
+                    Solo
+                  </label>
+                  <span class="error"
+                    *ngIf="((orderingForm.controls.ordererType.touched) && (orderingForm.controls.ordererType.errors?.required))">Please
+                    select type
+                  </span>
+                </div>
+
+
+              </div>
+              <div class="form-group">
+                <label for="organisation-dropdown">Organisation :</label>
+                <div>
+                  <select formControlName="orgId" class="form-control" id="organisation-dropdown">
+                    <option value="">Select Organisation </option>
+                    <option *ngFor="let organisation of organisations" [value]="organisation._id">
+                      {{organisation.name}}
+                    </option>
+
+                  </select>
+
+                  <span class="error"
+                    *ngIf="((orderingForm.controls.orgId.touched) && (orderingForm.controls.orgId.errors?.required))">Please
+                    select organisation
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Activity Logs</h5>
+      <button *ngIf="closeable" (click)="hideActivityModel()" class="btn">
+        <span aria-label="close">x</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Sit back and relax while we set up the ordering service for you. Meanwhile, be sure not to exit the window as it will impede the thus far progress made. While setting up the ordering service, we will run numerous technical processes in the background which will be depicted in the following activity logs:</p>
+        </div>
+        <div class="logs-box">
+
+          <div *ngFor="let logs of logsmsg; let i=index"><img src="assets/images/icon-images/{{logs.icon}}"
+              alt="loading"><span [innerHTML]="logs.msg"></span><br/>
+               
+          
+            
+            </div>
+        </div>
+        <div class="done-icon-box" *ngIf="status">
+          <p class="install-done">Congratulations, your ordering service has been successfully created.</p>
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+            <circle class="path circle" fill="none" stroke="#a2e774" stroke-width="6" stroke-miterlimit="10" cx="65.1"
+              cy="65.1" r="62.1" />
+            <polyline class="path check" fill="none" stroke="#a2e774" stroke-width="6" stroke-linecap="round"
+              stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+          </svg>
+        </div>
+        <div class="install-progress" *ngIf="!status && !closeable">
+          <p class="text-center">Installation is in progress...</p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

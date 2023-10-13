@@ -1,0 +1,93 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="networks">
+      <div class="row">
+          <div class="col-4">
+              <div class="tab-box add-network">
+                <div class="network-wrapper">
+                    <a class="add-network-link" href="#">
+                        <i class="fas fa-plus"></i>
+                        Add Network
+                      </a>
+                </div>
+              </div>
+            </div>
+        <div class="col-4">
+          <div *ngFor="let data of records" class="tab-box">
+            <img src="assets/images/cluster-icon-black.png" alt="">
+            <div class="header">
+              <h6>{{data.name}}</h6>
+              <span class="badge badge-success">completed</span>
+            </div>
+            <p><span>Organisations :</span>97</p>
+            <p><span>No. of Peers :</span>126</p>
+            <p><a routerLink="/inner-sidebar">View details<i class="fas fa-chevron-right"></i></a></p>
+          </div>
+        </div>
+        <!-- <div class="col-4">
+          <div class="tab-box">
+            <img src="assets/images/cluster-icon-black.png" alt="">
+            <div class="header">
+              <h6>Fabdep</h6>
+              <span class="badge badge-warning">pending</span>
+            </div>
+            <p><span>Organisations :</span>07</p>
+            <p><span>No. of Peers :</span>56</p>
+           <p><a routerLink="/inner-sidebar">View details<i class="fas fa-chevron-right"></i></a></p>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="tab-box">
+            <img src="assets/images/cluster-icon-black.png" alt="">
+            <div class="header">
+              <h6>Network</h6>
+              <span class="badge badge-success">completed</span>
+            </div>
+            <p><span>Organisations :</span>607</p>
+            <p><span>No. of Peers :</span>76</p>
+           <p><a routerLink="/inner-sidebar">View details<i class="fas fa-chevron-right"></i></a></p>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="tab-box">
+            <img src="assets/images/cluster-icon-black.png" alt="">
+            <div class="header">
+              <h6>IBM</h6>
+              <span class="badge badge-danger">rejected</span>
+            </div>
+            <p><span>Organisations :</span>107</p>
+            <p><span>No. of Peers :</span>766</p>
+           <p><a routerLink="/inner-sidebar">View details<i class="fas fa-chevron-right"></i></a></p>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="tab-box">
+            <img src="assets/images/cluster-icon-black.png" alt="">
+            <div class="header">
+              <h6>Apple</h6>
+              <span class="badge badge-warning">pending</span>
+            </div>
+            <p><span>Organisations :</span>37</p>
+            <p><span>No. of Peers :</span>526</p>
+           <p><a routerLink="/inner-sidebar">View details<i class="fas fa-chevron-right"></i></a></p>
+          </div>
+        </div> -->
+        <!-- <div class="col-4">
+          <div class="tab-box add-network">
+            <div class="network-wrapper">
+                <a class="add-network-link" href="#">
+                    <i class="fas fa-plus"></i>
+                    Add Network
+                  </a>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <!-- <div class="no-network">
+      <img src="assets/images/network(3).png" alt="Network Picture">
+      <p>Lorem ipsum dolor sit ullam consequuntur praesentium ea maxime sit autem incidunt.</p>
+      <button routerLink="/inner-sidebar/organisation/create" class="btn">Create Network</button>
+    </div> -->
+  </div>
+</div>

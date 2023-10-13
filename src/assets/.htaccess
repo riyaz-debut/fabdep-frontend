@@ -1,0 +1,21 @@
+RewriteEngine On
+# If an existing asset or directory is requested go to it as it is
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+RewriteRule ^ - [L]
+# If the requested resource doesn't exist, use index.html
+RewriteRule ^ /index.html
+
+# BROWSER CACHING USING CACHE-CONTROL HEADERS
+<ifModule mod_headers.c> 
+    # One year for js, css, image and video files
+    <filesMatch ".(flv|gif|ico|jpg|jpeg|mp4|mpeg|png|svg|swf|webp|js|css)$">
+        Header set Cache-Control "public, max-age=31536000"
+    </filesMatch>
+
+    # no cache for html files
+    <filesMatch ".(html)$">
+        Header set Cache-Control "private, no-cache"
+    </filesMatch>
+</ifModule>
+# end of cache policy

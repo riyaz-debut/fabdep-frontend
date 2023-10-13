@@ -1,0 +1,206 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Create Ordering Service</h4>
+            <button class="btn" (click)="addOrdering()">Add Ordering Service</button>
+          </div>
+        </div>
+
+        <div class="col-xl-6">
+          <form [formGroup]="orderingForm">
+            <div class="basic-info">
+              <div class="form-group">
+                <label for="order-name">Name :</label>
+                <div>
+                  <div class="field-outer">
+                    <input type="text" class="form-control" formControlName="name"
+                      (keypress)="omit_special_char($event)" id="order-name" placeholder="e.g. ordering-service">
+                  </div>
+                  <span class="error"
+                    *ngIf="((orderingForm.controls.name.touched) && (orderingForm.controls.name.errors?.required))">Please
+                    enter name
+                  </span>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label for="radio-buttons">Type :</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" formControlName="ordererType" id="exampleRadios1"
+                    value="1" checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                    Raft
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" formControlName="ordererType" id="exampleRadios2"
+                    value="0">
+                  <label class="form-check-label" for="exampleRadios2">
+                    Solo
+                  </label>
+                  <span class="error"
+                    *ngIf="((orderingForm.controls.ordererType.touched) && (orderingForm.controls.ordererType.errors?.required))">Please
+                    select type
+                  </span>
+                </div>
+
+
+              </div>
+              <div class="form-group">
+                <label for="organisation-dropdown">Orderer :</label>
+                <div>
+                  <div class="field-outer">
+                    <select formControlName="orgId" class="form-control" id="organisation-dropdown">
+                      <option value="">Select Orderer </option>
+                      <option *ngFor="let orderer of orderers" [value]="orderer._id">
+                        {{orderer.name}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="field-outer">
+                    <span class="error"
+                      *ngIf="((orderingForm.controls.orgId.touched) && (orderingForm.controls.orgId.errors?.required))">Please
+                      select orderer
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="organisation-dropdown">Consortium Member :</label>
+                <div class="chosen-box">
+                  <div class="field-outer">
+                    <select formControlName="cmId" data-placeholder="Select Consortium Member" class="form-control"
+                      id="consortium" multiple>
+                      <option *ngFor="let consortium_member of consortium_members" [value]="consortium_member._id">
+                        {{consortium_member.name}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="field-outer">
+                    <span class="error chosen-error"
+                      *ngIf="((orderingForm.controls.cmId.touched) && (orderingForm.controls.cmId.errors?.required))">Please
+                      select at least one Consortium Member
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+        <div class="col-xl-6">
+          <div class="info-box">
+            <h6>Information</h6>
+            <ul>
+              <li>The Hyperledger Fabric ordering service provides an atomic broadcast ordering service for consumption by the peers. This means that many clients can submit messages to the ordering service, and the same sequence of ordered batches will be delivered to all clients in response.</li>
+              <li>Enter the name of the ordering service.</li>
+              <li>Select the ordering service type.
+                <ul>
+                  <li>Raft is a crash fault-tolerant (CFT) ordering service based on an implementation of Raft protocol in etcd.</li>
+                  <li> Solo is intended for test only and consists only of a single ordering node.</li>
+                </ul>
+
+              </li>
+
+              <li>Select the orderer organization previously created.</li>
+              <li>Select the consortium members of the ordering service with whom you want to bootstrap with.</li>
+            </ul>
+            <div id="curvedarrow"></div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Activity Logs</h5>
+      <button *ngIf="closeable" (click)="hideActivityModel()" class="btn">
+        <span aria-label="close">x</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Sit back and relax while we set up the ordering service and ordering node(s) for you. We will run numerous
+            technical processes in the background which are depicted in the following activity logs, so be sure not to
+            exit the window as it will impede the thus far progress made.
+          </p>
+        </div>
+        <div id="scroll" class="logs-box">
+
+          <div *ngFor="let logs of logsmsg; let i=index">
+
+            <img *ngIf="logs.refresh != '' " id="{{id}}"
+              (click)="logs.success=='no'? refreshApi(i,logs.refresh,logs.refreshnode) : '' "
+              src="assets/images/icon-images/{{logs.icon}}" alt="loading" style="cursor: pointer;">
+
+            <img *ngIf="logs.refresh =='' " src="assets/images/icon-images/{{logs.icon}}" alt="loading"
+              (click)="logs.success=='no'? rehitApi(logs.index,logs.data,logs.iconIndex) : '' ">
+
+            <span [innerHTML]="logs.msg"></span><br />
+          </div>
+        </div>
+        <div class="done-icon-box">
+
+          <div *ngIf="status">
+            <p class="install-done">Congratulations, your ordering service has been successfully created.</p>
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+              <circle class="path circle" fill="none" stroke="#a2e774" stroke-width="6" stroke-miterlimit="10" cx="65.1"
+                cy="65.1" r="62.1" />
+              <polyline class="path check" fill="none" stroke="#a2e774" stroke-width="6" stroke-linecap="round"
+                stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+            </svg>
+          </div>
+
+          <div *ngIf="failApi">
+            <p class="install-done">Unable to create ordering service, Please try again latar.</p>
+            <svg width='90px' version="1.1" id="cross-svg" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
+              enable-background="new 0 0 512 512" xml:space="preserve">
+              <circle class="path circle" id="cross_circle" fill="none" stroke="rgb(236, 60, 60)" stroke-width="30"
+                stroke-miterlimit="10" cx="256" cy="256" r="225" fill="transparent" stroke-linecap="round"
+                stroke-dashoffset="2000" stroke-dasharray="2000" />
+              <g>
+
+                <rect class="path rect-x" id="cross_p1" x="239.397" y="67.518" rx="17" ry="17"
+                  transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)" fill="rgb(236, 60, 60)" />
+              </g>
+              <g>
+
+                <rect class="path rect-y" id="cross_p2" x="239.397" y="67.519" rx="17" ry="17"
+                  transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)" fill="rgb(236, 60, 60)" />
+              </g>
+            </svg>
+          </div>
+
+        </div>
+        <div class="install-progress" *ngIf="!status && !closeable">
+          <p class="text-center">Installation is in progress...</p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #invalidAccess let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Invalid Access</h5>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Please Select network First</p>
+        </div>
+        <div class="modal-footer">
+          <button (click)="goToNetworkList()" class="btn btn-primary">Ok</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

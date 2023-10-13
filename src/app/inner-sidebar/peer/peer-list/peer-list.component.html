@@ -1,0 +1,186 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header-box">
+            <h4>List Peers</h4>
+            <button routerLink="/inner-sidebar/peer/create" routerLinkActive="router-link-active"
+              class="btn btn-primary">Create
+              Peer</button>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Organisation</th>
+                  <th scope="col">Peer Port</th>
+                  <th scope="col">CC Port</th>
+                  <th scope="col">DB Port</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let peer of peerList | paginate: { itemsPerPage: 10, currentPage: p }">
+                  <td>{{peer.name ? peer.name : '' }}</td>
+                  <td>{{peer.orgId ? peer.organisation.name : ''}}</td>
+                  <td>{{peer.peerport ? peer.peerport : ''}}</td>
+                  <td>{{peer.chaincodeport ? peer.chaincodeport : '' }}</td>
+                  <td>{{peer.couchdbport ? peer.couchdbport : ''}}</td>
+                  <td>
+                    <i routerLink="/inner-sidebar/peer/view/{{peer._id}}" class="far fa-eye" placement="top"
+                      ngbTooltip="View" tooltipClass="tooltip-custom-class"></i><span>|</span>
+                    <!-- <i (click)="deletePeer(peer._id)" class="far fa-trash-alt" placement="top" ngbTooltip="Delete"
+                    tooltipClass="tooltip-custom-class" (click)="peerDelete()"></i> -->
+
+                    <i class="far fa-trash-alt" placement="top" ngbTooltip="Delete" tooltipClass="tooltip-custom-class"
+                      (click)="peerDelete()" (click)="deletePeerId = peer._id"></i>
+                  </td>
+                </tr>
+                <tr *ngIf="!peerList.length">
+                  <td class="text-center" colspan="6">No Data Found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+
+        <!--  <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+
+        <pagination-template class="pagination" #pagination="paginationApi" (pageChange)="p = $event">
+
+          <ul *ngIf="peerList.length" class="pagination">
+
+            <li class="paginate_button page-item">
+              <a (click)="pagination.setCurrent(1)" class="page-link">&laquo;</a>
+            </li>
+
+            <li class="paginate_button page-item previous" [class.disabled]="pagination.isFirstPage()">
+              <a (click)="!pagination.isFirstPage() && pagination.previous()" class="page-link">&lt;</a>
+            </li>
+
+            <li *ngFor="let page of pagination.pages" [class.active]="pagination.getCurrent() === page.value"
+              class="paginate_button page-item">
+              <a (click)="pagination.getCurrent() !== page.value && pagination.setCurrent(page.value)"
+                class="page-link">{{ page.label }}</a>
+            </li>
+
+            <li class="paginate_button page-item next" [class.disabled]="pagination.isLastPage()">
+              <a (click)="!pagination.isLastPage() && pagination.next()" class="page-link">&gt;</a>
+            </li>
+
+            <li class="paginate_button page-item">
+              <a (click)="pagination.setCurrent(pagination.getLastPage())" class="page-link">&raquo;</a>
+            </li>
+
+          </ul>
+
+        </pagination-template>
+
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Invalid Access</h5>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Please Select network First</p>
+        </div>
+        <div class="modal-footer">
+          <button (click)="goToNetworkList()" class="btn btn-primary">Ok</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #deletePeerModel let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Delete Peer</h5>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Are you sure, you want to delete peer?</p>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" ngbAutofocus class="btn btn-danger red-btn" (click)="deletePeer(deletePeerId)"
+            (click)="modal.close('Ok click')">Yes</button>
+          <button type="button" class="btn btn-outline-dark cancel-btn"
+            (click)="modal.dismiss('cancel click')">Cancel</button>
+
+
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #activityLogs let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Activity logs</h5>
+      <button *ngIf="closeAble" (click)="hideActivityModel()" class="btn">
+        <span aria-label="close">x</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Sit back and relax while we delete peer for you. We will run numerous technical processes in the
+            background which are depicted in the following activity logs, so be sure not to exit the window as it will
+            impede the thus far progress made.
+          </p>
+        </div>
+        <div class="logs-box">
+          <div *ngFor="let logs of logsmsg; let i=index"><img src="assets/images/icon-images/{{logs.icon}}"
+              alt="loading" (click)="logs.success=='no'?rehitApi(logs.index,logs.id) : '' "><span>{{logs.msg}}</span>
+          </div>
+        </div>
+        <div class="done-icon-box">
+          <div *ngIf="success">
+            <p class="install-done">Congratulations your peer has been deleted successfully.</p>
+            <svg id="check-svg" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+              <circle class="path circle" fill="none" stroke="#73ae55" stroke-width="6" stroke-miterlimit="10" cx="65.1"
+                cy="65.1" r="62.1" />
+              <polyline class="path check" fill="none" stroke="#73ae55" stroke-width="6" stroke-linecap="round"
+                stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+            </svg>
+          </div>
+
+          <div *ngIf="failApi">
+            <p class="install-done">Unable to delete peer, Please try again later.</p>
+            <svg width='90px' version="1.1" id="cross-svg" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
+              enable-background="new 0 0 512 512" xml:space="preserve">
+              <circle class="path circle" id="cross_circle" fill="none" stroke="rgb(236, 60, 60)" stroke-width="30"
+                stroke-miterlimit="10" cx="256" cy="256" r="225" fill="transparent" stroke-linecap="round"
+                stroke-dashoffset="2000" stroke-dasharray="2000" />
+              <g>
+
+                <rect class="path rect-x" id="cross_p1" x="239.397" y="67.518" rx="17" ry="17"
+                  transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)" fill="rgb(236, 60, 60)" />
+              </g>
+              <g>
+
+                <rect class="path rect-y" id="cross_p2" x="239.397" y="67.519" rx="17" ry="17"
+                  transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)" fill="rgb(236, 60, 60)" />
+              </g>
+            </svg>
+          </div>
+
+          <div class="install-progress" *ngIf="!success && !failApi">
+            <p>Deletion is in progress...</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+</div>

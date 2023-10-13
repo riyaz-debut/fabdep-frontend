@@ -1,0 +1,234 @@
+<div class="main-section animated fadeIn">
+    <div class="inner-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="header">
+                        <h4>Private Data Collection(s)</h4>
+                        <button (click)="addCollectionDialog()" class="btn blue-button mr-2">Add Collection</button>
+                        <button (click)="continue()" class="btn blue-button mr-2">Continue</button>
+                        <!-- <button (click)="continue()" class="btn blue-button mr-2" [ngClass]="privateCollectionConfig ? privateCollectionConfig.length ? '' : 'disabled' : 'disabled'" >Continue</button>
+                        <button (click)="backClicked()" class="btn cancel-button">Cancel</button> -->
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="basic-info">
+                        <!-- <button (click)="addCollectionDialog()" class="btn">Add Collection</button> -->
+                        <div *ngFor="let data of privateCollectionConfig; let i = index">
+                            <!-- <button (click)="removeFromPvDataConfig(i)"class="btn far fa-trash-alt btn-danger text-white float-right remove-collection"></button> -->
+                            <button (click)="removeFromPvDataConfig(i)"
+                                class="btn far fa-trash-alt  text-danger float-right remove-collection"></button>
+                            <div class="form-group">
+                                <label for="selectBox">Collection Name : </label>
+                                <div class="static-text">
+                                    {{data.name}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectBox">Required Peer Count : </label>
+                                <div class="static-text">
+                                    {{data.requiredPeerCount}}
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectBox">Max Peer Count : </label>
+                                <div class="static-text">
+                                    {{data.maxPeerCount}}
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectBox">Block To Live : </label>
+                                <div class="static-text">
+                                    {{data.blockToLive}}
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectBox">Member Only Read : </label>
+                                <div class="static-text">
+                                    {{data.memberOnlyRead}}
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="selectBox">Member Only Read : </label>
+                                <div class="static-text">
+                                    {{data.org}}
+
+                                </div>
+                            </div>
+                            <hr class="mt-2 mb-4">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="info-box">
+                        <h6>Information</h6>
+                        <ul>
+                            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, asperiores?</li>
+                            <li>Doloribus pariatur animi iusto fugiat aut quam fuga earum fugit.</li>
+                            <li>Nostrum ab doloribus vel dolore officia eos iure sunt quibusdam.</li>
+                            <li>Optio nulla necessitatibus similique. Iusto obcaecati ducimus nulla id culpa?</li>
+                        </ul>
+                        <div id="curvedarrow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <ng-template #collectionDialog let-modal>
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-basic-title">Add Private Data Collection</h5>
+                <button (click)="hideActivityModel()" class="btn">
+                    <span aria-label="close">x</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="parent-box">
+                    <form [formGroup]="collectionForm">
+                        <div class="form-group">
+                            <label for="collection-name">Collection Name : </label>
+                            <input formControlName="collectionName" (blur)="checkDuplicateCollectionName()" type="text" class="form-control"
+                                placeholder="Collection Name" id="collection-name">
+                            <span
+                                *ngIf="((collectionForm.controls.collectionName.touched) && (collectionForm.controls.collectionName.errors?.required))"
+                                class="error">Please enter collection name
+                            </span>
+                            <span
+                                *ngIf="((collectionForm.controls.collectionName.touched) && (sameCollectionErr))"
+                                class="error">Please enter unique collection name
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="required-peer-count">Required Peer Count :</label>
+                            <input formControlName="requiredPeerCount" type="text" class="form-control"
+                                placeholder="e.g. 1" id="required-peer-count">
+                            <span
+                                *ngIf="((collectionForm.controls.requiredPeerCount.touched) && (collectionForm.controls.requiredPeerCount.errors?.required))"
+                                class="error">Please enter required peer count
+                            </span>
+                            <span
+                                *ngIf="((collectionForm.controls.requiredPeerCount.touched) && (collectionForm.controls.requiredPeerCount.errors?.pattern))"
+                                class="error">Required peer count should be numeric
+                            </span>
+                            
+                        </div>
+
+                        <div class="form-group">
+                            <label for="max-peer-count"> Max Peer Count :</label>
+                            <input formControlName="maxPeerCount" type="text" class="form-control"
+                                placeholder="e.g. 2" id="max-peer-count">
+                            <span
+                                *ngIf="((collectionForm.controls.maxPeerCount.touched) && (collectionForm.controls.maxPeerCount.errors?.required))"
+                                class="error">Please enter max peer count
+                            </span>
+                            <span
+                                *ngIf="((collectionForm.controls.maxPeerCount.touched) && (collectionForm.controls.maxPeerCount.errors?.pattern))"
+                                class="error">Max peer count should be numeric
+                            </span>
+                            
+                        </div>
+
+                        <div class="form-group">
+                            <label for="block-to-live">Block to live :</label>
+                            <input formControlName="blockToLive" type="text" class="form-control"
+                                placeholder="e.g. 3" id="block-to-live">
+                            <span
+                                *ngIf="((collectionForm.controls.blockToLive.touched) && (collectionForm.controls.blockToLive.errors?.required))"
+                                class="error">Please enter block to live
+                            </span>
+                            <span
+                                *ngIf="((collectionForm.controls.blockToLive.touched) && (collectionForm.controls.blockToLive.errors?.pattern))"
+                                class="error">Block to live should be numeric
+                            </span>
+                            
+                        </div>
+
+
+
+                        <div class="form-inline mb-2">
+                            <!-- <label for="member-only-read">Member Only Read :</label> -->
+                            <!-- <input formControlName="memberOnlyRead" type="text" class="form-control"
+                                placeholder="member only read" id="member-only-read"> -->
+
+                            <div class="ml-2">
+                                
+                                <input class="form-check-input" type="radio" formControlName="memberOnlyRead"
+                                    id="exampleRadios2" value=true>
+                                <label class="form-check-label mr-2" for="exampleRadios2">
+                                    Member can read
+                                </label>
+                                
+                                <input class="form-check-input" type="radio" formControlName="memberOnlyRead"
+                                    id="exampleRadios1" value=false>
+                                <label class="form-check-label ml-2" for="exampleRadios1">
+                                    All can read
+                                </label>
+
+                            </div>
+                            <span
+                                *ngIf="((collectionForm.controls.memberOnlyRead.touched) && (collectionForm.controls.memberOnlyRead.errors?.required))"
+                                class="error">Please enter member only read
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="selectBox" class="endorsement">Organisation : </label>
+                            <div class="chosen-box">
+                                <div class="field-outer">
+                                    <select formControlName="organisation" (change)="getSelectedOrganisation()"
+                                        data-placeholder="Choose Organisation" id="consortium" class="form-control"
+                                        multiple>
+                                        <option *ngFor="let org of consortiumMembers" value="{{org.mspId}}">
+                                            {{org.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="field-outer">
+
+                                </div>
+                            </div>
+                            <span
+                                *ngIf="((collectionForm.controls.organisation.touched) && (collectionForm.controls.organisation.errors?.required))"
+                                class="error">Please choose organisation
+                            </span>
+                        </div>
+                        <div class="text-center mt-4 mb-4">
+                            <button (click)="saveCollection()" class="btn save-btn mr-2">Save</button>
+                            <button (click)="hideActivityModel()" class="btn btn-secondary ml-2">Cancel</button>
+                        </div>
+                    </form>
+
+
+
+                    <!-- <div class="below-header">
+              <p>Please Select network First</p>
+            </div> -->
+                    <!-- <div class="modal-footer"> -->
+                    <!-- <button (click)="goToNetworkList()" class="btn btn-primary">Ok</button> -->
+                    <!-- </div> -->
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- <ng-template #invalidAccess let-modal>
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-basic-title">Invalid Access</h5>
+            </div>
+            <div class="modal-body">
+                <div class="parent-box">
+                    <div class="below-header">
+                        <p>Please Select network First</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button (click)="goToNetworkList()" class="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </ng-template> -->
+    </div>

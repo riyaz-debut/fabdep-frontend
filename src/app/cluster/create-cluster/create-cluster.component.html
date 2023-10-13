@@ -1,0 +1,244 @@
+<div class="main-section">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Create Cluster</h4>
+            <button class="btn" (click)="addCluster()">Add
+              Cluster</button>
+          </div>
+        </div>
+        <div class="col-12">
+          <form [formGroup]="clusterForm">
+            <div class="basic-info">
+              <div class="form-group">
+                <label for="name">Name :</label>
+                <div>
+                  <input type="text" class="form-control" formControlName="cName" id="name"
+                    (keypress)="omit_special_char($event)" (focusout)="trimClusterName($event)" placeholder="Cluster Name">
+                  <span class="error"
+                    *ngIf="((clusterForm.controls['cName'].touched) && (clusterForm.controls['cName'].errors?.required))">Please
+                    enter cluster name</span>
+                </div>
+              </div>
+            </div>
+            <div class="master-node">
+              <div class="master-node-header">
+                <h4>Master Node</h4>
+              </div>
+              <table class="table master-table-list-header">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">IP Address</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">Connection</th>
+                  </tr>
+                </thead>
+              </table>
+              <table class="table master-table-list-body">
+                <tr [ngClass]="isDisable">
+                  <td>
+                    <input type="text" (focusout)="trimFeild('mName',$event)" (keypress)="omit_special_char($event)" (keyup)="checkconnection('master' , 0)"
+                      class="form-control" formControlName="mName" id="master-name" placeholder="Enter master name">
+                    <span class="error"
+                      *ngIf="((clusterForm.controls['mName'].touched) && (clusterForm.controls['mName'].errors?.required))">Please
+                      enter master name</span>
+                  </td>
+                  <td>
+                    <input type="text" (focusout)="trimFeild('mIp',$event)" (keyup)="checkconnection('master' ,0)"
+                      class="form-control" formControlName="mIp" id="master-ip" placeholder="Enter ip address">
+                    <span class="error"
+                      *ngIf="((clusterForm.controls['mIp'].touched) && (clusterForm.controls['mIp'].errors?.required))">Please
+                      enter ip</span>
+                    <span class="error" *ngIf="((clusterForm.controls['mIp'].touched) && !mIpValid)">Please
+                      <!-- *ngIf="((clusterForm.controls['mIp'].touched) && (clusterForm.controls['mIp'].errors?.pattern))">Please -->
+                      enter a valid ip</span>
+                  </td>
+                  <td>
+                    <input type="text" (focusout)="trimFeild('mUsername',$event)"
+                      (keyup)="checkconnection('master' , 0)" class="form-control" formControlName="mUsername"
+                      id="master-usename" placeholder="Enter username">
+                    <span class="error"
+                      *ngIf="((clusterForm.controls['mUsername'].touched) && (clusterForm.controls['mUsername'].errors?.required))">Please
+                      enter master name</span>
+                  </td>
+                  <td>
+                    <input [type]="showPwd" (focusout)="trimFeild('mPassword',$event)"
+                      (keyup)="checkconnection('master' ,0)" class="form-control" formControlName="mPassword"
+                      id="master-password" placeholder="Enter password">
+                    <span class="error"
+                      *ngIf="((clusterForm.controls['mPassword'].touched) && (clusterForm.controls['mPassword'].errors?.required))">Please
+                      enter password</span>
+                    <i class="far fa-eye" (click)="togglepwd(1,'master')"></i>
+                  </td>
+                  <td>
+                    <!-- <i (click)="focusOut()" class="fa fa-plus"[ngClass]="apiHitIcon" ></i> -->
+                    <i (click)="focusOut()" [ngClass]="apiHitIcon"></i>
+
+                    <!-- *ngIf="apiHitIcon != 'fa-sync-alt' && apiHitIcon != 'fa-check'" -->
+                    <!-- <i *ngIf="validateVm === 'fa-sync-alt'" (click)="focusOut()" class="fas add-pointer"
+                      [ngClass]="validateVm"></i>
+                    <i *ngIf="validateVm !== 'fa-sync-alt'" class="fas" [ngClass]="validateVm"></i> -->
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="worker-nodes">
+              <div class="worker-node-header">
+                <h4>Worker Nodes</h4>
+              </div>
+              <table class="table table-list-header">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">IP Address</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">Connection</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+              </table>
+              <table class="table table-list-body">
+                <div formArrayName="workerRows">
+                  <tr [ngClass]="worklist[i]['isDisable']"
+                    *ngFor="let itemrow of clusterForm.controls.workerRows['controls']; let i=index" [formGroupName]="i"
+                    class="master-node">
+
+                    <td>
+                      <input type="text" (focusout)="trimWorkers('wName',$event,i)" (keypress)="omit_special_char($event)" (keyup)="checkconnection('worker',i)" class="form-control"
+                        formControlName="wName" id="worker-name" placeholder="Enter worker name">
+                      <span class="error"
+                        *ngIf="((clusterForm.controls.workerRows['controls'][i].controls['wName'].touched) && clusterForm.controls.workerRows['controls'][i].controls['wName'].errors?.required)">Please
+                        enter Worker Name</span>
+                    </td>
+                    <td>
+                      <input (focusout)="trimWorkers('wIp',$event,i)" type="text" (keyup)="checkconnection('worker',i)"
+                        class="form-control" formControlName="wIp" id="worker-ip" placeholder="Enter ip address">
+                      <span class="error"
+                        *ngIf="((clusterForm.controls.workerRows['controls'][i].controls['wIp'].touched) && clusterForm.controls.workerRows['controls'][i].controls['wIp'].errors?.required)">Please
+                        enter Worker IP</span>
+                      <!-- <span class="error"
+                        *ngIf="((clusterForm.controls.workerRows['controls'][i].controls['wIp'].touched) && clusterForm.controls.workerRows['controls'][i].controls['wIp'].errors?.pattern)">Please
+                        enter valid Worker IP</span> -->
+                      <span class="error"
+                        *ngIf="((clusterForm.controls.workerRows['controls'][i].controls['wIp'].touched) && workerlist[i].error )">Please
+                        enter valid Worker IP</span>
+
+                      
+                    </td>
+                    <td>
+                      <input type="text" (focusout)="trimWorkers('wUsername',$event,i)" (keyup)="checkconnection('worker',i)" class="form-control"
+                        formControlName="wUsername" id="worker-usename" placeholder="Enter username">
+                      <span class="error"
+                        *ngIf="((clusterForm.controls.workerRows['controls'][i].controls['wUsername'].touched) && clusterForm.controls.workerRows['controls'][i].controls['wUsername'].errors?.required)">Please
+                        enter Username</span>
+                    </td>
+                    <td>
+                      <!-- <input [type]="worklist[i]['pwd_type']" (keyup)="checkconnection('worker',i)" class="form-control"
+                        formControlName="wPassword" id="mysecretpassword{{i}}" placeholder="Password"
+                        (focusout)="workerFocusOut(i)"> -->
+
+                      <input [type]="worklist[i]['pwd_type']"  (focusout)="trimWorkers('wPassword',$event,i)"(keyup)="checkconnection('worker',i)" class="form-control"
+                        formControlName="wPassword" id="mysecretpassword{{i}}" placeholder="Enter Password">
+
+
+
+                      <i class="far fa-eye" (click)="togglepwd(i,'worker')"></i>
+                      <span class="error"
+                        *ngIf="((clusterForm.controls.workerRows['controls'][i].controls['wPassword'].touched) && clusterForm.controls.workerRows['controls'][i].controls['wPassword'].errors?.required)">Please
+                        enter Worker Password</span>
+                    </td>
+                    <td>
+
+                      <i (click)="workerFocusOut(i)" [ngClass]="workerlist[i].icon"></i>
+                      <!-- <i *ngIf="worklist[i]['icon'] === 'fa-sync-alt'" (click)="workerFocusOut(i)"
+                        class="fas add-pointer" [ngClass]="worklist[i]['icon']"></i>
+                      <i *ngIf="worklist[i]['icon'] !== 'fa-sync-alt'" class="fas" [ngClass]="worklist[i]['icon']"></i> -->
+                    </td>
+                    <td>
+                      <i (click)="deleteRow(i)" [ngClass]="{
+                    'trashdisabled':!(clusterForm.controls.workerRows['controls'].length > 1)}"
+                        class="far fa-trash-alt" placement="top" ngbTooltip="Delete"
+                        tooltipClass="tooltip-custom-class"></i>
+                    </td>
+                  </tr>
+                </div>
+              </table>
+              <div class="add-more">
+                <button class="btn" (click)="addNewRow()"><i class="fas fa-plus-circle"></i>Add More</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Activity logs</h5>
+      <button *ngIf="closeAble" (click)="hideActivityModel()" class="btn">
+        <span aria-label="close">x</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Sit back and relax while we set up the cluster for you. We will run numerous technical processes in the
+            background which are depicted in the following activity logs, so be sure not to exit the window as it will
+            impede the thus far progress made.
+          </p>
+        </div>
+        <div class="logs-box">
+          <div><img src="assets/images/icon-images/check.png" alt="check image"><span>The master node connection has
+              been checked.</span></div>
+          <div><img src="assets/images/icon-images/check.png" alt="cross image"><span>The worker node(s) connection has
+              been checked.</span></div>
+          <div *ngFor="let logs of logsmsg; let i=index"><img src="assets/images/icon-images/{{logs.icon}}"
+              (click)="logs.success=='no'? rehitApi(logs.data,logs.index,logs.loopIndex,logs.workerName): '' "
+              alt="loading">
+            <span>{{logs.msg}}</span></div>
+        </div>
+        <div class="done-icon-box">
+          <div *ngIf="checkallapis">
+            <p class="install-done">Congratulations, your kubernetes cluster has been successfully created.</p>
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+              <circle class="path circle" fill="none" stroke="#a2e774" stroke-width="6" stroke-miterlimit="10" cx="65.1"
+                cy="65.1" r="62.1" />
+              <polyline class="path check" fill="none" stroke="#a2e774" stroke-width="6" stroke-linecap="round"
+                stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+            </svg>
+          </div>
+          <div *ngIf="failApi">
+            <p class="install-done">Unable to create kubernetes cluster, Please try again later.</p>
+            <svg width='90px' version="1.1" id="cross-svg" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
+              enable-background="new 0 0 512 512" xml:space="preserve">
+              <circle class="path circle" id="cross_circle" fill="none" stroke="rgb(236, 60, 60)" stroke-width="30"
+                stroke-miterlimit="10" cx="256" cy="256" r="225" fill="transparent" stroke-linecap="round"
+                stroke-dashoffset="2000" stroke-dasharray="2000" />
+              <g>
+
+                <rect class="path rect-x" id="cross_p1" x="239.397" y="67.518" rx="17" ry="17"
+                  transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)" fill="rgb(236, 60, 60)" />
+              </g>
+              <g>
+
+                <rect class="path rect-y" id="cross_p2" x="239.397" y="67.519" rx="17" ry="17"
+                  transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)" fill="rgb(236, 60, 60)" />
+              </g>
+            </svg>
+          </div>
+          <div class="install-progress" *ngIf="!checkallapis && !failApi ">
+            <p>Installation is in progress...</p>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

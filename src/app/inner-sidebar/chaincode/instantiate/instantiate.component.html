@@ -1,0 +1,405 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Add Instantiate</h4>
+            <button (click)="submit()" class="btn">
+              {{instantiateForm.value.upgrade ? 'Upgrade' : 'Instantiate'}}</button>
+          </div>
+        </div>
+        <div class="col-xl-6" [formGroup]="instantiateForm">
+          <div class="basic-info">
+
+            <div class="form-group">
+              <label for="chainCodeName">Chain Code :</label>
+              <div>
+                <input type="text" class="form-control" formControlName="chainCodeName" id="chainCodeName"
+                  placeholder="Function" readonly>
+              </div>
+            </div>
+
+            <!-- <div class="form-group">
+              <label for="args">Private Data Collection :</label>
+              <div>
+                
+
+                  <button class="btn private-collection-buuton" (click)="saveCurrentFields()">Add Private Data
+                    Collection(s)</button>
+
+                  
+              </div>
+            </div> -->
+
+            <div class="form-group">
+              <label for="peer-name">Channel :</label>
+              <div>
+                <select formControlName="channelId" (change)="getChannelOrganisations($event)" class="form-control">
+                  <option value="">Select Channel</option>
+                  <option *ngFor="let channel of channelList" value="{{channel._id}}">
+                    {{channel.name}}</option>
+                </select>
+                <span *ngIf="((instantiateForm.controls.channelId.touched) &&
+                  (instantiateForm.controls.channelId.errors?.required))" class="error">Please select Channel</span>
+              </div>
+            </div>
+
+            <!-- <div class="form-group">
+              <label for="peer-name">Target Peer :</label>
+              <div>
+                <select formControlName="peerId" class="form-control">
+                  <option value="">Select Peer</option>
+                  <option *ngFor="let peer of peerList" value="{{peer.joinedpeer}}">
+                    {{peer.joinedpeer}}</option>
+                </select>
+                <span *ngIf="((instantiateForm.controls.peerId.touched) &&
+                  (instantiateForm.controls.peerId.errors?.required))" class="error">Please select Peer</span>
+              </div>
+            </div> -->
+
+            <div class="form-group">
+              <label for="fcn">Function :</label>
+              <div>
+                <input type="text" class="form-control" formControlName="fcn" id="fcn" placeholder="Function">
+                <span
+                  *ngIf="((instantiateForm.controls.fcn.touched) && (instantiateForm.controls.fcn.errors?.required))"
+                  class="error">Please enter Function</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="args">Argument :</label>
+              <div>
+                <input type="text" formControlName="args" class="form-control" id="args" placeholder="a,100,  b,200">
+                <span
+                  *ngIf="((instantiateForm.controls.args.touched) && (instantiateForm.controls.args.errors?.required))"
+                  class="error">Please enter argument</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="radio-buttons">Endorsement Policy :</label>
+              <div class="enroll-tab">
+                <div class="form-check">
+                  <ngb-tabset (tabChange)="beforeChange($event)" #endorsementTabs="ngbTabset" [destroyOnHide]="false">
+                    <ngb-tab id="tab1" >
+                      <ng-template ngbTabTitle>
+                        <h4>Normal</h4>
+                        <!-- <h4 (click)="advance = false" (click)="addFeild()">Normal</h4> -->
+                      </ng-template>
+                      <ng-template ngbTabContent>
+                        <ul class="policy-check">
+                          <li>
+                            <input type="radio" formControlName="endorsement" id="test1" value="and">
+                            <label for="test1">And</label>
+                          </li>
+                          <li>
+                            <input type="radio" formControlName="endorsement" id="test2" value="or">
+                            <label for="test2">Or</label>
+                          </li>
+                        </ul>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab id="tab2"> 
+                      <ng-template ngbTabTitle>
+                        <h4>Advanced</h4>
+                        <!-- <h4 (click)="advance = true" (click)="addFeild()">Advanced</h4> -->
+                      </ng-template>
+                      <ng-template ngbTabContent>
+                        <textarea class="form-control" formControlName="endorsement" id="advance"
+                          placeholder="Write advance"></textarea>
+                      </ng-template>
+                    </ngb-tab>
+                  </ngb-tabset>
+                  <!-- <div *ngIf="!advance">
+                    <label class="form-check-label" for="Radio1">
+                      <input class="form-check-input" formControlName="endorsement" type="radio" id="Radio1"
+                        value="and"> AND
+                    </label>
+                    <label class="form-check-label" for="Radios2">
+                      <input class="form-check-input" formControlName="endorsement" type="radio" id="Radios2"
+                        value="or"> OR
+                    </label>
+                  </div> -->
+                </div>
+                <!-- <div *ngIf="advance">
+                  <textarea class="form-control" formControlName="endorsement" id="advance"
+                    placeholder="Write advance"></textarea>
+                </div> -->
+                <span class="error"
+                  *ngIf="((instantiateForm.controls['endorsement'].touched) && (instantiateForm.controls['endorsement'].errors?.required))">Endorsement
+                  Policy
+                  is
+                  required.</span>
+              </div>
+              <!-- <a (click)="addFeild()" class="advance-button">{{advance ? 'Normal' : 'Advance'}}</a> -->
+            </div>
+
+
+
+            <div class="form-group">
+              <label for="form-check-label">Private Data Collection :</label>
+              <div>
+                <!-- <button class="btn private-collection-buuton"[routerLink]="['/inner-sidebar/chaincode/private-data-collection']">Add Private Data
+                  Collection(s)</button> -->
+                <input class="form-check-input" type="radio" (change)="checkCoolectionData()" formControlName="pvDataConfig" id="exampleRadios2" value=true>
+                <label class="form-check-label mr-2 collection-radio-label-left" for="exampleRadios2">
+                  Yes
+                </label>
+
+                <input class="form-check-input" type="radio" (change)="checkCoolectionData()" formControlName="pvDataConfig" id="exampleRadios1" value=false>
+                <label class="form-check-label ml-2 collection-radio-label-right" for="exampleRadios1">
+                  No
+                </label>
+
+                <button *ngIf="showViewAddButton" class="btn private-collection-buuton" (click)="viewAndAddCollection()">View / Add</button>
+
+
+              </div>
+              <span class="error collection-error"*ngIf="collectionDataEmptyErr">Collections not available. Please add Collection</span>
+            </div>
+
+            <!-- <div class="form-group"> -->
+            <!-- <label for="args">Private Data Collection :</label> -->
+            <!-- <div> -->
+            <!-- <button class="btn" [routerLink]="['/inner-sidebar/chaincode/private-data-collection']" >Click here to add</button> -->
+            <!-- <button class="btn private-collection-buuton" (click)="saveCurrentFields()">Add Private Data Collection(s)</button> -->
+            <!-- <button class="btn private-collection-buuton" [routerLink]="['/inner-sidebar/chaincode/private-data-collection']" >Add Private Data Collection(s)</button> -->
+            <!-- <input class="form-check-input" type="radio" name="isPvtColl"  id="exampleRadios2"
+                  value=true>
+                <label class="form-check-label mr-2" for="exampleRadios2">
+                  Member can read
+                </label>
+
+                <input class="form-check-input" type="radio" name="isPvtColl" id="exampleRadios1"
+                  value=false>
+                <label class="form-check-label ml-2" for="exampleRadios1">
+                  All can read
+                </label> -->
+
+            <!-- </div> -->
+            <!-- </div> -->
+
+            <!-- <div class="form-group" *ngIf="showUpgradeOption"> -->
+            <div class="form-group">
+              <div class="custom-checkbox">
+                <input type="checkbox" formControlName="upgrade" class="form-control" id="upgrade">
+                <label for="upgrade"><span>Please check, If you want to upgrade.</span></label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <div class="info-box">
+            <h6>Information</h6>
+            <ul>
+              <li>Chaincode instantiation results in a secured Docker container isolated from the endorsing peer
+                process. Chaincode initializes and manages ledger state through transactions submitted by applications.
+              </li>
+              <li>Select the channel on which chaincode will be instantiated. It can be instantiated on multiple
+                channels.</li>
+              <li>Enter the function name and the parameters.</li>
+              <li>Select the endorsement policy checkbox if custom endorsement os needed. Then enter the endorsement in
+                the form of JSON.</li>
+              <li>Check the upgrade checkbox if chaincode is being upgraded or uncheck it if its being instantiated.
+              </li>
+            </ul>
+            <div id="curvedarrow"></div>
+          </div>
+        </div>
+
+        <div class="col-12" *ngIf="instatiated.length">
+          <div class="main-section">
+            <div class="inner-section">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-12">
+                    <h3 class="small-head">Chain code has been instatiated on following </h3>
+                  </div>
+                  <div class="col-12"
+                    *ngFor="let instatiateData of instatiated | paginate: { itemsPerPage: 6, currentPage: p }">
+                    <div class="tab-box">
+                      <!-- <img src="assets/images/cluster-icon-black.png" alt=""> -->
+                      <div *ngFor="let channelData of instatiateData.channel">
+                        <div class="header">
+                          <h6>{{channelData.name}}</h6>
+                          <span class="badge badge-success">Instantiated</span>
+                        </div>
+                        <table class="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th>Organisation</th>
+                              <th>Peer</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let organisationArray of instatiateData.channelOrg">
+                              <td>
+                                <div *ngFor="let organisation of organisationArray.organisation">
+                                  {{organisation.name}}
+                                </div>
+                              </td>
+                              <td>
+                                <span *ngFor="let peer of organisationArray.peers; index as i">
+                                  {{peer.name}}
+                                </span>
+
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <!-- <div class="col-4">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Channel Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let record of instatiated | paginate: { itemsPerPage: 10, currentPage: p }">
+                          <td>
+                            <div *ngFor="let channel of record.channel">
+                              {{channel.name}}
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr *ngIf="!instatiated.length">
+                          <td class="text-center" colspan="6">No Data Found.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-8">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Organisation Name</th>
+                          <th scope="col">Peer Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let org of orgData">
+                          <td>
+                            {{org.name}}
+                          </td>
+                          <td>
+                            <div *ngFor="let record of instatiated ">
+                              <div *ngFor="let channels of record.channelOrg">
+                                <div *ngFor="let peers of channels.peers">
+                                  {{org._id === peers.orgId ? peers.name : ''}}
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+
+                        </tr>
+                        <tr *ngIf="!instatiated.length">
+                          <td class="text-center" colspan="6">No Data Found.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div> -->
+
+                </div>
+                <div class="footer">
+                  <pagination-template class="pagination" #pagination="paginationApi" (pageChange)="p = $event">
+
+                    <ul class="pagination">
+
+                      <li class="paginate_button page-item">
+                        <a (click)="pagination.setCurrent(1)" class="page-link">&laquo;</a>
+                      </li>
+
+                      <li class="paginate_button page-item previous" [class.disabled]="pagination.isFirstPage()">
+                        <a (click)="!pagination.isFirstPage() && pagination.previous()" class="page-link">&lt;</a>
+                      </li>
+
+                      <li *ngFor="let page of pagination.pages" [class.active]="pagination.getCurrent() === page.value"
+                        class="paginate_button page-item">
+                        <a (click)="pagination.getCurrent() !== page.value && pagination.setCurrent(page.value)"
+                          class="page-link">{{ page.label }}</a>
+                      </li>
+
+                      <li class="paginate_button page-item next" [class.disabled]="pagination.isLastPage()">
+                        <a (click)="!pagination.isLastPage() && pagination.next()" class="page-link">&gt;</a>
+                      </li>
+
+                      <li class="paginate_button page-item">
+                        <a (click)="pagination.setCurrent(pagination.getLastPage())" class="page-link">&raquo;</a>
+                      </li>
+                    </ul>
+                  </pagination-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Activity logs</h5>
+      <button *ngIf="closeAble" (click)="hideActivityModel()" class="btn">
+        <span aria-label="close">x</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Sit back and relax while we are instantiating chaincode for you. We will run numerous technical processes
+            in the
+            background which are depicted in the following activity logs, so be sure not to exit the window as
+            it will impede the thus far progress made.
+          </p>
+        </div>
+        <div class="logs-box">
+          <div *ngFor="let logs of logsmsg; let i=index"><img
+              (click)="logs.success != true ? reHittApi(logs.index,logs.logLocation) : ''"
+              src="assets/images/icon-images/{{logs.icon}}" alt="loading"><span>{{logs.msg}}</span></div>
+        </div>
+        <div class="done-icon-box">
+          <div class="install-progress" *ngIf="showErrorBtn;else other_content">
+            <p class="install-done">Installation failed , Please try again later.</p>
+            <svg width='90px' version="1.1" id="cross-svg" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
+              enable-background="new 0 0 512 512" xml:space="preserve">
+              <circle class="path circle" id="cross_circle" fill="none" stroke="rgb(236, 60, 60)" stroke-width="30"
+                stroke-miterlimit="10" cx="256" cy="256" r="225" fill="transparent" stroke-linecap="round"
+                stroke-dashoffset="2000" stroke-dasharray="2000" />
+              <g>
+                <rect class="path rect-x" id="cross_p1" x="239.397" y="67.518" rx="17" ry="17"
+                  transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)" fill="rgb(236, 60, 60)" />
+              </g>
+              <g>
+                <rect class="path rect-y" id="cross_p2" x="239.397" y="67.519" rx="17" ry="17"
+                  transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)" fill="rgb(236, 60, 60)" />
+              </g>
+            </svg>
+          </div>
+          <ng-template #other_content>
+            <div class="install-progress" *ngIf="!success">
+              <p>Installation is in progress...</p>
+            </div>
+          </ng-template>
+          <div *ngIf="success">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+              <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1"
+                cy="65.1" r="62.1" />
+              <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round"
+                stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

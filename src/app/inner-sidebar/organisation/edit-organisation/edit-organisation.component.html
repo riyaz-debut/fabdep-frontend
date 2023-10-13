@@ -1,0 +1,162 @@
+<div class="main-section">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Edit Consortium Member</h4>
+            <button class="btn" (click)="editOrganisation()">Save</button>
+          </div>
+        </div>
+        <div class="col-12">
+          <form [formGroup]="organisationForm">
+            <input type="hidden" formControlName="adminId" />
+            <div class="basic-info">
+              <div class="form-group">
+                <label for="organisation-name">Name :</label>
+              <div>
+                <input type="text" class="form-control" formControlName="name" id="organisation-name"
+                  placeholder="Consortium Member Name">
+                  <span *ngIf="((organisationForm.controls.name.touched) && (organisationForm.controls.name.errors?.required))"class="error">Please enter Consortium Member name</span>
+              
+              </div>  
+              </div>
+              <div class="form-group">
+                <label for="MSP">MSP :</label>
+              <div>
+                <input type="text" class="form-control" formControlName="mspId" id="MSP" placeholder="MSP Name">
+                <span *ngIf="((organisationForm.controls['mspId'].touched) && (organisationForm.controls['mspId'].errors?.required))"class="error">Please enter MSP </span>
+              
+              </div>  
+              </div>
+              <!-- <div class="form-group">
+                  <label for="radio-buttons">Type :</label>
+                  <div class="form-check-box">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" formControlName="type" id="exampleRadios1" value="0"
+                        checked>
+                      <label class="form-check-label" for="exampleRadios1">
+                        Peer
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" formControlName="type" id="exampleRadios2" value="1">
+                      <label class="form-check-label" for="exampleRadios2">
+                        Orderer
+                      </label>
+                    </div>
+                    <span *ngIf="((organisationForm.controls['type'].touched) && (organisationForm.controls['type'].errors?.required))"class="error">Please select type </span>
+                  
+                  </div>
+                </div> -->
+              <!-- <div class="form-group">
+                <label for="TLS-CA-dropdown">TLS CA :</label>
+              <div>
+                <select formControlName="tlsCaId" class="form-control" id="TLS-CA-dropdown">
+                  <option value="">Please select TLS CA</option>
+                  <option *ngFor="let tls of tlsCaList" [value]="tls._id">
+                    {{tls.name}}
+                  </option>
+              </select>
+              <span *ngIf="((organisationForm.controls['tlsCaId'].touched) && (organisationForm.controls['tlsCaId'].errors?.required))"class="error">Please select TLS CA </span>
+            
+              </div>  
+              </div> -->
+              <div class="form-group">
+                <label for="CA-dropdown">Root CA :</label>
+                <div>
+                  <select formControlName="caId"  (change) = "getAdmin(null)" class="form-control" id="CA-dropdown">
+                    <option value="">Please select CA</option>
+                    <option *ngFor="let ca of caList" [value]="ca._id">
+                      {{ca.name}}
+                    </option>
+
+                </select>
+                <span *ngIf="((organisationForm.controls['caId'].touched) && (organisationForm.controls['caId'].errors?.required))"class="error">Please select CA </span>
+              
+                </div>
+                </div>
+              <div class="form-group">
+                <label for="TLS-CA-dropdown">CA Admin :</label>
+              <div>
+                <div class="admin-select-box">
+                  <select formControlName="adminId" class="form-control" id="CA-Admin-dropdown">
+                    <option value="">Please select CA Admin </option>
+                    <option *ngFor="let admin of adminList" [value]="admin._id">
+                      {{admin.admnId}}
+                    </option>
+                </select>
+                <span *ngIf="adding_admin_loading_img" class="loading"><img src="assets/images/icon-images/loader.gif" alt="loader"></span>
+                <button *ngIf="add_new_admin_button" (click)="addAdmin()" class="btn"><i [ngClass]="!showAdmin ? 'fa-plus' : 'fa-minus'" class="fa" ></i></button>
+                </div>
+              <span *ngIf="((organisationForm.controls['adminId'].touched) && (organisationForm.controls['adminId'].errors?.required))" class="error">Please select CA Admin </span>
+              </div>  
+              </div>
+              <div *ngIf="showAdmin" class="form-group">
+                <label for="admin-username">AdminId :</label>
+                <div>
+                  <input formControlName="newAdminId" type="text" class="form-control" id="admin-username"
+                  placeholder="Admin Username">
+                  <span *ngIf="((organisationForm.controls['newAdminId'].touched) && (organisationForm.controls['newAdminId'].errors?.required))" class="error">Please enter username</span>
+                </div>
+              </div>
+              <div *ngIf="showAdmin" class="form-group">
+                <label for="admin-passowrd">Admin Secret :</label>
+                <div class="showAdmin">
+                  <input formControlName="newAdminSecret" type="password" class="form-control" id="admin-passowrd"
+                  placeholder="Admin Passowrd">
+                  <i class="far fa-eye"></i>
+                  <span *ngIf="((organisationForm.controls['newAdminSecret'].touched) && (organisationForm.controls['newAdminSecret'].errors?.required))" class="error">Please enter password</span>
+                  
+                </div>
+              </div>
+              <div *ngIf="showAdmin" class="form-group">
+                <label></label>
+                <div class="add-admin">
+                    <button (click)="addNewAdmin()" class="btn">Save Admin</button>
+                  </div>
+              </div>
+              
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Activity logs</h5>
+      <button *ngIf="closeAble" (click) = "hideActivityModel()" class="btn">
+        <span aria-label="close">x</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum dolor sit amet consectetur</p>
+        </div>
+        <div class="logs-box">
+          <div><img src="assets/images/icon-images/check.png" alt="check image"><span>Check master node connection.</span></div>
+          <div><img src="assets/images/icon-images/check.png" alt="cross image"><span>Check workers node connection.</span></div>
+          <div *ngFor="let logs of logsmsg; let i=index"><img src="assets/images/icon-images/{{logs.icon}}" alt="loading"><span>{{logs.msg}}</span></div>
+        </div>
+        <div class="done-icon-box">
+          <div *ngIf="checkallapis">
+              <p class="install-done">Your organisation has been created Succesfully.</p>
+              <svg  version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1"
+                  cy="65.1" r="62.1" />
+                <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round"
+                  stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+              </svg>
+          </div>
+          <div class="install-progress" *ngIf="!checkallapis">
+            <p>Installation is in progress...</p>
+          </div>
+          
+
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

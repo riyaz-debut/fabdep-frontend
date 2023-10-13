@@ -1,0 +1,103 @@
+2020-02-28T10:38:29.312Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-02-28T10:38:29.314Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-02-28T10:38:29.315Z [SubscriptionController] [31merror[39m: 	[31mgetToken - Error: Key is corrupted or does not exists[39m
+2020-02-28T10:38:30.017Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-02-28T10:38:30.018Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-02-28T10:38:30.018Z [SubscriptionController] [31merror[39m: 	[31mgetToken - Error: Key is corrupted or does not exists[39m
+2020-02-28T11:19:46.899Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-02-28T11:19:46.902Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-02-28T11:19:46.905Z [SubscriptionController] [31merror[39m: 	[31mgetToken - Error: Key is corrupted or does not exists[39m
+2020-02-28T11:20:26.148Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-02-28T11:20:26.149Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-02-28T11:20:26.149Z [SubscriptionController] [31merror[39m: 	[31mgetToken - Error: Key is corrupted or does not exists[39m
+2020-02-28T11:21:59.156Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-02-28T11:21:59.157Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-02-28T11:21:59.157Z [SubscriptionController] [31merror[39m: 	[31mgetToken - Error: Key is corrupted or does not exists[39m
+2020-02-28T11:22:37.723Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-02-28T11:22:37.723Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-02-28T11:22:37.724Z [SubscriptionController] [31merror[39m: 	[31mgetToken - Error: Key is corrupted or does not exists[39m
+2020-05-18T04:55:18.118Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-05-18T04:55:18.122Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-05-18T04:55:18.161Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":137,"mac_address":"aa:58:ac:9a:df:5d","os_type":"Ubuntu Linux","client_key":"8a481c48da6bdb4df6d343857fc1e529JxyRHBKitoz3aAISPGAtGQ==","plan_start_date":"2020-05-04 10:55:43","plan_expire":"2020-05-15 00:00:00","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-05-18T04:55:18.161Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan Plan expired[39m
+2020-05-18T04:55:18.164Z [SubscriptionController] [31merror[39m: 	[31mgetToken - Error: Key is corrupted or does not exists[39m
+2020-05-18T04:55:18.537Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-05-18T04:55:18.537Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-05-18T04:55:18.540Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":137,"mac_address":"aa:58:ac:9a:df:5d","os_type":"Ubuntu Linux","client_key":"8a481c48da6bdb4df6d343857fc1e529JxyRHBKitoz3aAISPGAtGQ==","plan_start_date":"2020-05-04 10:55:43","plan_expire":"2020-05-15 00:00:00","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-05-18T04:55:18.541Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan Plan expired[39m
+2020-05-18T04:55:18.546Z [SubscriptionController] [31merror[39m: 	[31mgetToken - Error: Key is corrupted or does not exists[39m
+2020-05-18T04:57:02.607Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-05-18T04:57:02.613Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-05-18T04:57:02.618Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":137,"mac_address":"aa:58:ac:9a:df:5d","os_type":"Ubuntu Linux","client_key":"8a481c48da6bdb4df6d343857fc1e529JxyRHBKitoz3aAISPGAtGQ==","plan_start_date":"2020-05-04 10:55:43","plan_expire":"2020-05-15 00:00:00","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-05-18T04:57:02.646Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan Plan expired[39m
+2020-05-18T04:57:02.647Z [SubscriptionController] [31merror[39m: 	[31mgetToken - Error: Key is corrupted or does not exists[39m
+2020-05-18T04:57:06.556Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-05-18T04:57:06.585Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-05-18T04:57:06.587Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":137,"mac_address":"aa:58:ac:9a:df:5d","os_type":"Ubuntu Linux","client_key":"8a481c48da6bdb4df6d343857fc1e529JxyRHBKitoz3aAISPGAtGQ==","plan_start_date":"2020-05-04 10:55:43","plan_expire":"2020-05-15 00:00:00","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-05-18T04:57:06.588Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan Plan expired[39m
+2020-05-18T04:57:06.589Z [SubscriptionController] [31merror[39m: 	[31mgetToken - Error: Key is corrupted or does not exists[39m
+2020-05-18T04:59:46.954Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-05-18T04:59:46.958Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-05-18T04:59:46.960Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":137,"mac_address":"aa:58:ac:9a:df:5d","os_type":"Ubuntu Linux","client_key":"8a481c48da6bdb4df6d343857fc1e529JxyRHBKitoz3aAISPGAtGQ==","plan_start_date":"2020-05-04 10:55:43","plan_expire":"2020-05-15 00:00:00","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-05-18T04:59:46.961Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan Plan expired[39m
+2020-05-18T04:59:46.962Z [SubscriptionController] [31merror[39m: 	[31mgetToken - Error: Key is corrupted or does not exists[39m
+2020-06-15T04:46:57.939Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-06-15T04:46:57.940Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-06-15T04:46:57.973Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":175,"mac_address":"2e:3e:40:0c:81:75","os_type":"Ubuntu Linux","client_key":"7170649e21cb10c21b08432590658436kNArOBg6h6QrEFSXrby3Sg==","plan_start_date":"2020-05-22 05:27:28","plan_expire":"2020-06-30 11:59:59","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-06-15T04:46:57.974Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan "Plan is active"[39m
+2020-06-15T04:46:59.186Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - start[39m
+2020-06-15T04:46:59.415Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - Clusters information returned.[39m
+2020-06-15T04:47:00.633Z [NetworkController] [34mdebug[39m: 	[34mlistNetwork - start[39m
+2020-06-15T04:47:00.636Z [NetworkController] [34mdebug[39m: 	[34mlistNetwork - Networks information returned.[39m
+2020-06-15T04:47:32.733Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-06-15T04:47:32.737Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-06-15T04:47:32.741Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":175,"mac_address":"2e:3e:40:0c:81:75","os_type":"Ubuntu Linux","client_key":"7170649e21cb10c21b08432590658436kNArOBg6h6QrEFSXrby3Sg==","plan_start_date":"2020-05-22 05:27:28","plan_expire":"2020-06-30 11:59:59","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-06-15T04:47:32.741Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan "Plan is active"[39m
+2020-06-15T04:47:32.774Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - start[39m
+2020-06-15T04:47:32.778Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - Clusters information returned.[39m
+2020-06-15T04:47:40.779Z [NetworkController] [34mdebug[39m: 	[34mlistNetwork - start[39m
+2020-06-15T04:47:40.789Z [NetworkController] [34mdebug[39m: 	[34mlistNetwork - Networks information returned.[39m
+2020-06-15T04:47:42.452Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - start[39m
+2020-06-15T04:47:42.457Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - Clusters information returned.[39m
+2020-06-15T04:59:50.426Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-06-15T04:59:50.430Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-06-15T04:59:50.430Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":175,"mac_address":"2e:3e:40:0c:81:75","os_type":"Ubuntu Linux","client_key":"7170649e21cb10c21b08432590658436kNArOBg6h6QrEFSXrby3Sg==","plan_start_date":"2020-05-22 05:27:28","plan_expire":"2020-06-30 11:59:59","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-06-15T04:59:50.431Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan "Plan is active"[39m
+2020-06-15T04:59:50.480Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - start[39m
+2020-06-15T04:59:50.484Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - Clusters information returned.[39m
+2020-06-15T05:42:47.230Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-06-15T05:42:47.231Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-06-15T05:42:47.231Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":175,"mac_address":"2e:3e:40:0c:81:75","os_type":"Ubuntu Linux","client_key":"7170649e21cb10c21b08432590658436kNArOBg6h6QrEFSXrby3Sg==","plan_start_date":"2020-05-22 05:27:28","plan_expire":"2020-06-30 11:59:59","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-06-15T05:42:47.232Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan "Plan is active"[39m
+2020-06-15T05:42:47.269Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - start[39m
+2020-06-15T05:42:47.274Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - Clusters information returned.[39m
+2020-06-15T05:43:14.744Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-06-15T05:43:14.746Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-06-15T05:43:14.747Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":175,"mac_address":"2e:3e:40:0c:81:75","os_type":"Ubuntu Linux","client_key":"7170649e21cb10c21b08432590658436kNArOBg6h6QrEFSXrby3Sg==","plan_start_date":"2020-05-22 05:27:28","plan_expire":"2020-06-30 11:59:59","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-06-15T05:43:14.748Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan "Plan is active"[39m
+2020-06-15T05:43:14.793Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - start[39m
+2020-06-15T05:43:14.799Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - Clusters information returned.[39m
+2020-06-15T05:43:56.598Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-06-15T05:43:56.599Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-06-15T05:43:56.599Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":175,"mac_address":"2e:3e:40:0c:81:75","os_type":"Ubuntu Linux","client_key":"7170649e21cb10c21b08432590658436kNArOBg6h6QrEFSXrby3Sg==","plan_start_date":"2020-05-22 05:27:28","plan_expire":"2020-06-30 11:59:59","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-06-15T05:43:56.599Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan "Plan is active"[39m
+2020-06-15T05:43:56.632Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - start[39m
+2020-06-15T05:43:56.636Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - Clusters information returned.[39m
+2020-06-15T05:45:04.948Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-06-15T05:45:04.949Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-06-15T05:45:04.949Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":175,"mac_address":"2e:3e:40:0c:81:75","os_type":"Ubuntu Linux","client_key":"7170649e21cb10c21b08432590658436kNArOBg6h6QrEFSXrby3Sg==","plan_start_date":"2020-05-22 05:27:28","plan_expire":"2020-06-30 11:59:59","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-06-15T05:45:04.949Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan "Plan is active"[39m
+2020-06-15T05:45:04.976Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - start[39m
+2020-06-15T05:45:04.980Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - Clusters information returned.[39m
+2020-06-15T05:45:22.664Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-06-15T05:45:22.665Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-06-15T05:45:22.665Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":175,"mac_address":"2e:3e:40:0c:81:75","os_type":"Ubuntu Linux","client_key":"7170649e21cb10c21b08432590658436kNArOBg6h6QrEFSXrby3Sg==","plan_start_date":"2020-05-22 05:27:28","plan_expire":"2020-06-30 11:59:59","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-06-15T05:45:22.666Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan "Plan is active"[39m
+2020-06-15T05:45:22.703Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - start[39m
+2020-06-15T05:45:22.708Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - Clusters information returned.[39m
+2020-06-15T05:46:17.828Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - start[39m
+2020-06-15T05:46:17.828Z [SubscriptionController] [34mdebug[39m: 	[34mgetToken - has received the parameters {"clientKey":""}[39m
+2020-06-15T05:46:17.828Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - start {"register_id":175,"mac_address":"2e:3e:40:0c:81:75","os_type":"Ubuntu Linux","client_key":"7170649e21cb10c21b08432590658436kNArOBg6h6QrEFSXrby3Sg==","plan_start_date":"2020-05-22 05:27:28","plan_expire":"2020-06-30 11:59:59","subscription_plan":2,"support_plan":3,"message":"Successfull","status":1,"httpStatusCode":200,"osType":"Ubuntu Linux"}[39m
+2020-06-15T05:46:17.829Z [SubscriptionController] [34mdebug[39m: 	[34muserDetail - plan "Plan is active"[39m
+2020-06-15T05:46:17.858Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - start[39m
+2020-06-15T05:46:17.861Z [ClusterController] [34mdebug[39m: 	[34mlistCluster - Clusters information returned.[39m

@@ -1,0 +1,434 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Add Chain Code</h4>
+            <button (click)="submit()" class="btn">Add Chain Code</button>
+          </div>
+        </div>
+        <div class="col-xl-6" [formGroup]="chainCodeForm">
+          <div class="basic-info">
+            <div class="form-group">
+              <label for="peer-name">Name :</label>
+              <div>
+                <div class="field-outer">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="name"
+                    (keypress)="omit_special_char($event)"
+                    id="peer-name"
+                    placeholder="e.g. coin"
+                  />
+                </div>
+                <span
+                  *ngIf="
+                    chainCodeForm.controls.name.touched &&
+                    chainCodeForm.controls.name.errors?.required
+                  "
+                  class="error"
+                  >Please enter name</span
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="peer-name">Version :</label>
+              <div>
+                <div class="field-outer">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="version"
+                    id="version"
+                    placeholder="e.g. version 1.0"
+                  />
+                </div>
+                <span
+                  *ngIf="
+                    chainCodeForm.controls.version.touched &&
+                    chainCodeForm.controls.version.errors?.required
+                  "
+                  class="error"
+                  >Please enter version</span
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="peer-seq">Sequence :</label>
+              <div>
+                <div class="field-outer">
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="sequence"
+                    id="peer-seq"
+                    placeholder="e.g. sequence 1"
+                    data-placeholder="e.g. sequence 1"
+                    onkeydown="if(event.key==='.'){event.preventDefault();}"
+                  />
+                </div>
+                <span
+                  *ngIf="
+                    chainCodeForm.controls.sequence.touched &&
+                    chainCodeForm.controls.sequence.errors?.required
+                  "
+                  class="error"
+                  >Please enter Sequence</span
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="radio-buttons">Type :</label>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  formControlName="type"
+                  type="radio"
+                  id="golang"
+                  value="golang"
+                />
+                <label class="form-check-label" for="golang"> golang </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  formControlName="type"
+                  type="radio"
+                  id="node_js"
+                  value="node"
+                />
+                <label class="form-check-label" for="node_js"> node.js </label>
+              </div>
+              <span
+                class="error"
+                *ngIf="
+                  chainCodeForm.controls['type'].touched &&
+                  chainCodeForm.controls['type'].errors?.required
+                "
+                >Type is required.</span
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="secret">Chaincode :</label>
+
+              <div class="inputfile-box">
+                <div class="field-outer">
+                  <input
+                    type="file"
+                    class="inputfile"
+                    formControlName="chaincode"
+                    (change)="onFileChange($event)"
+                    name="file"
+                    id="file"
+                  />
+                  <label for="file">
+                    <span id="file-name" class="file-box">{{ fileName }}</span>
+                    <span class="file-button">
+                      <i class="fa fa-upload" aria-hidden="true"></i>
+                      Select File
+                    </span>
+                  </label>
+                </div>
+                <span
+                  *ngIf="
+                    chainCodeForm.controls.chaincode.touched &&
+                    chainCodeForm.controls.chaincode.errors?.required
+                  "
+                  class="error"
+                  >Please Select Chain Code
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="selectBox" class="endorsement"
+                >Consortium member :
+              </label>
+              <div class="chosen-box">
+                <div class="field-outer">
+                  <select
+                    formControlName="organisation_id"
+                    data-placeholder="Choose Consortium member"
+                    id="member"
+                    class="form-control"
+                    multiple
+                  >
+                    <option
+                      *ngFor="let member of members; index as i"
+                      value="{{ member._id }}"
+                    >
+                      {{ member.mspId }}
+                    </option>
+                  </select>
+                </div>
+                <div class="field-outer">
+                  <span
+                    class="error"
+                    *ngIf="
+                      chainCodeForm.controls['organisation_id'].touched &&
+                      chainCodeForm.controls['organisation_id'].errors?.required
+                    "
+                    >Member is required.</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="ordererServiceId">Peer :</label>
+              <div class="chosen-box">
+                <div class="field-outer">
+                  <select
+                    formControlName="channel"
+                    class="form-control"
+                    id="peerDropDown"
+                    data-placeholder="Choose Peer"
+                    multiple
+                  >
+                    <optgroup
+                      *ngFor="let peers of peerData; let i = index"
+                      label="{{ peers.mspId }}"
+                    >
+                      <option
+                        *ngFor="let peer of peers.peer"
+                        value="{{ peer._id }}"
+                      >
+                        {{ peer.name }}
+                      </option>
+                    </optgroup>
+                  </select>
+                </div>
+                <div class="field-outer">
+                  <span
+                    class="error"
+                    *ngIf="
+                      chainCodeForm.controls['peer'].touched &&
+                      chainCodeForm.controls['peer'].errors?.required
+                    "
+                    >Peer is required.</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="channelBox" class="endorsement">Channel : </label>
+              <div class="chosen-box">
+                <div class="field-outer">
+                  <select
+                    formControlName="channelId"
+                    placeholder="Choose Channel"
+                    id="channelBox"
+                    class="form-control"
+                  >
+                    <option
+                      *ngFor="let channel of channelList; index as i"
+                      value="{{ channel._id }}"
+                    >
+                      {{ channel.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="field-outer">
+                  <span
+                    class="error"
+                    *ngIf="
+                      chainCodeForm.controls['channelId'].touched &&
+                      chainCodeForm.controls['channelId'].errors?.required
+                    "
+                    >Channel is required.</span
+                  >
+                </div>
+              </div>
+              <div class="col-xl-6">
+                <div class="info-box">
+                  <h6>Information</h6>
+                  <ul>
+                    <li>
+                      A chaincode typically handles business logic agreed by
+                      members of the network, so that it may be considered as a
+                      “smart contract”.
+                    </li>
+                    <li>Enter chaincode name and version number.</li>
+                    <li>
+                      Select the chaincode language type in which it is written.
+                    </li>
+                    <li>
+                      Select the path of the chaincode (.zip files are also
+                      supported).
+                    </li>
+                    <li>
+                      Select the consortium members and the peers on which
+                      chaincode needs to be installed.
+                    </li>
+                  </ul>
+                  <div id="curvedarrow"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #content let-modal>
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-basic-title">Activity logs</h5>
+              <button
+                *ngIf="closeAble"
+                (click)="hideActivityModel()"
+                class="btn"
+              >
+                <span aria-label="close">x</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="parent-box">
+                <div class="below-header">
+                  <p>
+                    Sit back and relax while we set up the Chain Code for you.
+                    We will run numerous technical processes in the background
+                    which are depicted in the following activity logs, so be
+                    sure not to exit the window as it will impede the thus far
+                    progress made.
+                  </p>
+                </div>
+                <div class="logs-box">
+                  <div *ngFor="let logs of logsmsg; let i = index">
+                    <img
+                      src="assets/images/icon-images/{{ logs.icon }}"
+                      alt="loading"
+                      (click)="
+                        logs.success == 'no'
+                          ? rehitApi(
+                              logs.index,
+                              logs.data,
+                              logs.mspName,
+                              logs.loopIndex,
+                              logs.loop
+                            )
+                          : ''
+                      "
+                    /><span>{{ logs.msg }}</span>
+                  </div>
+                </div>
+                <div class="done-icon-box">
+                  <div
+                    class="install-progress"
+                    *ngIf="showErrorBtn; else other_content"
+                  >
+                    <!-- <button type="button" class="btn btn-danger" (click)="hideActivityModel()">Close</button>
+                 -->
+                    <p class="install-done">
+                      Installation failed , Please try again later.
+                    </p>
+                    <svg
+                      width="90px"
+                      version="1.1"
+                      id="cross-svg"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      x="0px"
+                      y="0px"
+                      viewBox="0 0 512 512"
+                      enable-background="new 0 0 512 512"
+                      xml:space="preserve"
+                    >
+                      <circle
+                        class="path circle"
+                        id="cross_circle"
+                        fill="none"
+                        stroke="rgb(236, 60, 60)"
+                        stroke-width="30"
+                        stroke-miterlimit="10"
+                        cx="256"
+                        cy="256"
+                        r="225"
+                        fill="transparent"
+                        stroke-linecap="round"
+                        stroke-dashoffset="2000"
+                        stroke-dasharray="2000"
+                      />
+                      <g>
+                        <rect
+                          class="path rect-x"
+                          id="cross_p1"
+                          x="239.397"
+                          y="67.518"
+                          rx="17"
+                          ry="17"
+                          transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)"
+                          fill="rgb(236, 60, 60)"
+                        />
+                      </g>
+                      <g>
+                        <rect
+                          class="path rect-y"
+                          id="cross_p2"
+                          x="239.397"
+                          y="67.519"
+                          rx="17"
+                          ry="17"
+                          transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)"
+                          fill="rgb(236, 60, 60)"
+                        />
+                      </g>
+                    </svg>
+                  </div>
+                  <ng-template #other_content>
+                    <div class="install-progress" *ngIf="!success">
+                      <p>Installation is in progress...</p>
+                    </div>
+                  </ng-template>
+                  <div *ngIf="success">
+                    <svg
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 130.2 130.2"
+                    >
+                      <circle
+                        class="path circle"
+                        fill="none"
+                        stroke="#73AF55"
+                        stroke-width="6"
+                        stroke-miterlimit="10"
+                        cx="65.1"
+                        cy="65.1"
+                        r="62.1"
+                      />
+                      <polyline
+                        class="path check"
+                        fill="none"
+                        stroke="#73AF55"
+                        stroke-width="6"
+                        stroke-linecap="round"
+                        stroke-miterlimit="10"
+                        points="100.2,40.2 51.5,88.8 29.8,67.5 "
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template #invalidAccess let-modal>
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-basic-title">Invalid Access</h5>
+            </div>
+            <div class="modal-body">
+              <div class="parent-box">
+                <div class="below-header">
+                  <p>Please Select network First</p>
+                </div>
+                <div class="modal-footer">
+                  <button (click)="goToNetworkList()" class="btn btn-primary">
+                    Ok
+                  </button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

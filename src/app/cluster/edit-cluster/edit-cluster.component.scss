@@ -1,0 +1,348 @@
+@import '../../../variables';
+
+.main-section {
+  .disabled ,.trashdisabled{
+    cursor: not-allowed;
+    pointer-events: none;
+    }
+  padding: 1rem;
+
+  .inner-section {
+    position: relative;
+    background: $white;
+    overflow-y: auto;
+    height: calc(100vh + -96px);
+    padding-bottom: 4rem;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+
+    .header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      border-bottom: 2px dashed $headingBorder;
+      margin-bottom: 20px;
+      padding: 14px;
+
+      h4 {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        color: $primary;
+        font-weight: 600;
+      }
+
+      .buttons {
+        position: absolute;
+        right: 0;
+        .btn {
+          width: 104px;
+          background: #636567;
+          color: $white;
+          font-weight: 500;
+          font-size: 13px;
+          padding: 7px 0.5rem;
+
+          &:hover {
+            background: $white;
+            color: #636567;
+            border: 1px solid #636567;
+          }
+          &:first-child {
+            margin-right: 6px;
+            color: $white;
+            background: #45b77e;
+          }
+  
+          &:first-child:hover {
+            background: $white;
+            color: #45b77e;
+            border: 1px solid #45b77e;
+          }
+        }
+      }
+    }
+
+    .basic-info {
+      .form-group {
+        display: flex;
+
+        label {
+          margin: 0;
+          color: #000000d6;
+          min-width: 105px;
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        input {
+          min-width: 350px;
+        }
+      }
+    }
+
+    .master-node,
+    .worker-nodes {
+      margin-top: 8px;
+
+      .fa-trash-alt {
+        color: $red;
+        font-size: 14px;
+
+        &::after {
+          display: none;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .fa-check {
+        font-size: 14px;
+        color: $green;
+      }
+
+      .master-node-header,
+      .worker-node-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+
+        h4 {
+          margin: 0;
+          font-size: 20px;
+          font-weight: 600;
+        }
+
+        .btn {
+          background: $primary;
+          color: $white;
+
+          &:focus {
+            box-shadow: none;
+          }
+
+          &:hover {
+            background: $white;
+            color: $primary;
+            border: 1px solid $primary;
+          }
+        }
+      }
+
+
+      .master-table-list-header, .table-list-header {
+        margin: 0;
+        font-size: 14px;
+
+        thead {
+          tr {
+            border: 1px solid $tableHead;
+
+            th {
+              border: 0;
+              width: 20%;
+              padding: 6px 0 6px 16px;
+              &:last-child {
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+
+      .master-table-list-header {
+        margin: 0;
+        font-size: 14px;
+
+        thead {
+          tr {
+            border: 1px solid $tableHead;
+
+            th {
+              border: 0;
+              width: 20%;
+              padding: 6px 0 6px 16px;
+              &:last-child {
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+
+      .table-list-header {
+        thead {
+          tr {
+            th {
+              &:last-child, &:nth-child(5) {
+                width: 10%;
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+
+      .master-table-list-body,
+      .table-list-body {
+        border-collapse: separate;
+        border-spacing: 0 6px;
+        margin-bottom: 4px;
+
+        tr {
+          background: $tableRow;
+          display: flex;
+
+          td {
+            border-top: 1px solid $tableRowBorder;
+            width: 20%;
+            padding: 6px 4px !important;
+            // text-align: center;
+            border: 1px solid $tableRowBorder;
+            // vertical-align: middle;
+            padding: 5px 0;
+            border-right: hidden;
+            border-left: hidden;
+
+            .form-control {
+              border: 0px;
+            }
+
+            &:first-child {
+              border-left: 1px solid $tableRowBorder;
+            }
+
+            &:nth-child(4) {
+              position: relative;
+
+              i {
+                cursor: pointer;
+                position: absolute;
+                top: 16px;
+                opacity: 0.8;
+                font-size: 12px;
+                right: 14px;
+              }
+            }
+
+            &:last-child {
+              border-right: 1px solid $tableRowBorder;
+              text-align: center;
+              i {
+                line-height: 33px;
+              }
+              // display: flex;
+              // align-items: center;
+              // justify-content: center;
+            }
+          }
+        }
+      }
+
+      .table-list-body {
+        tr {
+          td {
+            &:last-child, &:nth-child(5) {
+              width: 10%;
+              text-align: center;
+              i {
+                line-height: 33px;
+              }
+              // display: flex;
+              // align-items: center;
+              // justify-content: center;
+            }
+          }
+        }
+      }
+
+      .add-more {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        .btn {
+          // text-decoration: none;
+          color: $buttonColor;
+          display: flex;
+          padding: 0px;
+          // margin-right: 8px;
+          font-weight: 600;
+          font-size: 14px;
+
+          i {
+            vertical-align: middle;
+            font-size: 20px;
+            margin: 0 4px;
+            color: $buttonColor;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  .main-section {
+    .inner-section {
+      .header {
+        h4 {
+          font-size: 18px;
+        }
+
+        .btn {
+          font-size: 11px;
+        }
+      }
+
+      .master-node,
+      .worker-nodes {
+        .fa-trash-alt, .fa-check {
+          font-size: 12px;
+        }
+        .master-node-header,
+        .worker-node-header {
+          padding: 10px 0;
+          h4 {
+            font-size: 14px;
+          }
+        }
+      }
+
+      .master-table-list-header,
+      .table-list-header {
+       thead {
+        font-size: 12px;
+       }
+      }
+
+      .master-table-list-body,
+      .table-list-body {
+        tr {
+          td {
+            .form-control {
+              font-size: 11px;
+            }
+            &:nth-child(3) {
+              i {
+                top: 14px !important;
+                font-size: 10px !important;
+              }
+            }
+          }
+        }
+      }
+      .add-worker-box {
+        a {
+          font-size: 12px !important;
+          i {
+            font-size: 17px !important;
+          }
+        }
+      }
+    }
+  }
+}

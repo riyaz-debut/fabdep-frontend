@@ -1,0 +1,727 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Create Consortium Member</h4>
+            <button class="btn" (click)="addOrganisation()">
+              Add Consortium Member
+            </button>
+          </div>
+        </div>
+        <div class="col-12">
+          <form [formGroup]="organisationForm">
+            <div class="row">
+              <div class="col-5">
+                <div class="basic-info">
+                  <div class="form-group">
+                    <label for="name">Name :</label>
+                    <div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="name"
+                        (keypress)="omit_special_char($event)"
+                        id="organisation-name"
+                        placeholder="e.g. consortium-member"
+                      />
+                      <span
+                        *ngIf="
+                          organisationForm.controls.name.touched &&
+                          organisationForm.controls.name.errors?.required
+                        "
+                        class="error"
+                        >Please enter Consortium Member name</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="basic-info">
+                  <div class="form-group">
+                    <label for="name">MSP :</label>
+                    <div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="mspId"
+                        (keypress)="special_char($event)"
+                        id="MSP"
+                        placeholder="e.g.  consortium-msp"
+                      />
+                      <span
+                        *ngIf="
+                          organisationForm.controls['mspId'].touched &&
+                          organisationForm.controls['mspId'].errors?.required
+                        "
+                        class="error"
+                        >Please enter MSP
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="basic-info">
+                  <div class="form-group">
+                    <label for="cluster-dropdown">Cluster :</label>
+                    <div>
+                      <select
+                        formControlName="clusterId"
+                        class="form-control"
+                        id="cluster-dropdown"
+                      >
+                        <option value="">Please select Cluster</option>
+                        <option
+                          *ngFor="let cluster of clusterList"
+                          [value]="cluster._id"
+                        >
+                          {{ cluster.name }}
+                        </option>
+                      </select>
+                      <span
+                        *ngIf="
+                          organisationForm.controls['clusterId'].touched &&
+                          organisationForm.controls['clusterId'].errors
+                            ?.required
+                        "
+                        class="error"
+                        >Please select cluster
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="basic-info">
+                  <div class="form-group">
+                    <label for="name">Root CA :</label>
+                    <div>
+                      <select
+                        formControlName="caId"
+                        (change)="getAdmin(null)"
+                        class="form-control"
+                        id="CA-dropdown"
+                      >
+                        <option value="">Please select Root CA</option>
+                        <option *ngFor="let ca of caList" [value]="ca._id">
+                          {{ ca.name }}
+                        </option>
+                      </select>
+                      <span
+                        *ngIf="
+                          organisationForm.controls['caId'].touched &&
+                          organisationForm.controls['caId'].errors?.required
+                        "
+                        class="error"
+                        >Please select Root CA
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-5">
+                <div class="basic-info">
+                  <div class="form-group">
+                    <label for="name">CA Admin :</label>
+                    <div>
+                      <select
+                        formControlName="adminId"
+                        class="form-control"
+                        id="CA-Admin-dropdown"
+                      >
+                        <option value="">Please select CA Admin </option>
+                        <option
+                          *ngFor="let admin of adminList"
+                          [value]="admin._id"
+                        >
+                          {{ admin.admnId }}
+                        </option>
+                      </select>
+                      <span
+                        *ngIf="
+                          organisationForm.controls['adminId'].touched &&
+                          organisationForm.controls['adminId'].errors?.required
+                        "
+                        class="error"
+                        >Please select CA Admin
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="showAdmin">
+                  <div class="basic-info">
+                    <div class="form-group">
+                      <label for="admin-username">AdminId :</label>
+                      <div>
+                        <input
+                          formControlName="newAdminId"
+                          type="text"
+                          class="form-control"
+                          id="admin-username"
+                          placeholder="Admin Username"
+                        />
+                        <span
+                          *ngIf="
+                            organisationForm.controls['newAdminId'].touched &&
+                            organisationForm.controls['newAdminId'].errors
+                              ?.required
+                          "
+                          class="error"
+                          >Please enter username</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="showAdmin">
+                  <div class="basic-info">
+                    <div class="form-group">
+                      <label for="admin-passowrd">Admin Secret :</label>
+                      <div class="showAdmin">
+                        <input
+                          formControlName="newAdminSecret"
+                          type="{{ pwdShow ? 'text' : 'password' }}"
+                          class="form-control"
+                          id="admin-passowrd"
+                          placeholder="Admin Passowrd"
+                        />
+                        <i (click)="pwdShow = !pwdShow" class="far fa-eye"></i>
+                        <span
+                          *ngIf="
+                            organisationForm.controls['newAdminSecret']
+                              .touched &&
+                            organisationForm.controls['newAdminSecret'].errors
+                              ?.required
+                          "
+                          class="error"
+                          >Please enter password</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="showAdmin">
+                  <div class="basic-info">
+                    <div class="form-group">
+                      <label></label>
+                      <div class="add-admin">
+                        <button (click)="addNewAdmin()" class="btn">
+                          Save Admin
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="add-button">
+                  <img
+                    *ngIf="adding_admin_loading_img"
+                    class="loading"
+                    src="assets/images/icon-images/loader.gif"
+                    alt="loader"
+                  />
+                  <div
+                    *ngIf="add_new_admin_button"
+                    (click)="addAdmin()"
+                    class="btn"
+                  >
+                    <i
+                      [ngClass]="!showAdmin ? 'fa-plus' : 'fa-minus'"
+                      class="fa"
+                    ></i>
+                  </div>
+                  <div *ngIf="add_CA_guide" class="add-ca-instruction-box">
+                    <span>Click on plus to add new CA-Admin</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="master-node">
+              <div class="master-node-header">
+                <!-- <h4>Create Peer</h4> -->
+                <div class="header col-12">
+                  <h4>Create Peer</h4>
+                  <!-- <button class="btn" (click)="addOrganisation()">Add Consortium Member</button> -->
+                  <button class="btn" (click)="addNewRow()">
+                    <i class="fas fa-plus-circle"></i>Add More
+                  </button>
+                </div>
+              </div>
+
+              <div formArrayName="peerRows">
+                <div
+                  *ngFor="
+                    let itemrow of organisationForm.controls.peerRows[
+                      'controls'
+                    ];
+                    let i = index
+                  "
+                  [formGroupName]="i"
+                  class="row"
+                >
+                  <!-- <i (click)="deleteRow(i)" class="far fa-trash-alt text-danger"></i> -->
+
+                  <div class="col-5">
+                    <div class="basic-info">
+                      <div class="form-group">
+                        <label for="name" class="peer-label">Peer Name :</label>
+                        <div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            formControlName="peer_name"
+                            id="peerName"
+                            placeholder="Peer name"
+                            (keypress)="omit_special_char($event)"
+                            (focusout)="checkNAme($event)"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              organisationForm.controls.peerRows['controls'][i]
+                                .controls['peer_name'].touched &&
+                              organisationForm.controls.peerRows['controls'][i]
+                                .controls['peer_name'].errors?.required
+                            "
+                            >Please enter Peer Name</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="basic-info">
+                      <div class="form-group">
+                        <label for="name" class="peer-label">Enroll Secret :</label>
+                        <div>
+                          <input #passField type="password" class="form-control" formControlName="peer_enroll_secret"
+                            id="peerSecret" placeholder="Secret">
+                          <i (click)="togglePassword($event)" class="far fa-eye custom-eye-first"></i>
+                          <span class="error"
+                            *ngIf="((organisationForm.controls.peerRows['controls'][i].controls['peer_enroll_secret'].touched) && organisationForm.controls.peerRows['controls'][i].controls['peer_enroll_secret'].errors?.required)">Please
+                            enter Peer Secret</span>
+
+                        </div>
+                      </div>
+                    </div> -->
+
+                    <div class="basic-info">
+                      <div class="form-group">
+                        <label for="name" class="peer-label"
+                          >Peer Couch DB Username :</label
+                        >
+                        <div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            formControlName="couchdbUsername"
+                            id="couchdbUsername"
+                            placeholder="Couch DB Username"
+                            (keypress)="omit_special_char($event)"
+                            (focusout)="checkNAme($event)"
+                          />
+                          <span
+                            class="error"
+                            *ngIf="
+                              organisationForm.controls.peerRows['controls'][i]
+                                .controls['couchdbUsername'].touched &&
+                              organisationForm.controls.peerRows['controls'][i]
+                                .controls['couchdbUsername'].errors?.required
+                            "
+                            >Please enter Couch DB Username</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="basic-info">
+                      <div class="form-group">
+                        <label
+                          for="name"
+                          class="peer-label"
+                          style="min-width: 175px !important;"
+                          >Peer Couch DB Access :</label
+                        >
+                        <div>
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            formControlName="isPublic"
+                            id="exampleRadios1{{ i }}"
+                            value="true"
+                          />
+                          <label
+                            class="form-check-label"
+                            for="exampleRadios1{{ i }}"
+                          >
+                            Public
+                          </label>
+
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            formControlName="isPublic"
+                            id="exampleRadios2{{ i }}"
+                            value="false"
+                          />
+                          <label
+                            class="form-check-label"
+                            for="exampleRadios2{{ i }}"
+                          >
+                            Private
+                          </label>
+                          <span
+                            class="error"
+                            *ngIf="
+                              organisationForm.controls.peerRows['controls'][i]
+                                .controls['isPublic'].touched &&
+                              organisationForm.controls.peerRows['controls'][i]
+                                .controls['isPublic'].errors?.required
+                            "
+                            >Please select Couch DB Access</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-5">
+                    <!-- <div class="basic-info">
+                      <div class="form-group">
+                        <label for="name" class="peer-label">Peer Couch DB Username :</label>
+                        <div>
+                          <input type="text" class="form-control" formControlName="couchdbUsername" id="couchdbUsername"
+                            placeholder="Couch DB Username" (keypress)="omit_special_char($event)"
+                            (focusout)="checkNAme($event)">
+                          <span class="error"
+                            *ngIf="((organisationForm.controls.peerRows['controls'][i].controls['couchdbUsername'].touched) && organisationForm.controls.peerRows['controls'][i].controls['couchdbUsername'].errors?.required)">Please
+                            enter Couch DB Username</span>
+                        </div>
+                      </div>
+                    </div> -->
+
+                    <div class="basic-info" style="height: 45px;">
+                      <div class="form-group">
+                        <label for="name" class="peer-label"
+                          >Enroll Secret :</label
+                        >
+                        <div>
+                          <input
+                            #passField
+                            type="password"
+                            class="form-control"
+                            formControlName="peer_enroll_secret"
+                            id="peerSecret"
+                            placeholder="Secret"
+                          />
+                          <i
+                            (click)="togglePassword($event)"
+                            class="far fa-eye custom-eye-first"
+                          ></i>
+                          <span
+                            class="error"
+                            *ngIf="
+                              organisationForm.controls.peerRows['controls'][i]
+                                .controls['peer_enroll_secret'].touched &&
+                              organisationForm.controls.peerRows['controls'][i]
+                                .controls['peer_enroll_secret'].errors?.required
+                            "
+                            >Please enter Peer Secret</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="basic-info">
+                      <div class="form-group">
+                        <label for="name" class="peer-label"
+                          >Peer Couch DB Secret :</label
+                        >
+                        <div>
+                          <input
+                            #passField
+                            type="password"
+                            class="form-control"
+                            formControlName="couchdbPassword"
+                            id="couchdbPassword"
+                            placeholder="Couch DB Secret"
+                          />
+                          <i
+                            (click)="togglePassword($event)"
+                            class="far fa-eye custom-eye-second"
+                          ></i>
+                          <span
+                            class="error"
+                            *ngIf="
+                              organisationForm.controls.peerRows['controls'][i]
+                                .controls['couchdbPassword'].touched &&
+                              organisationForm.controls.peerRows['controls'][i]
+                                .controls['couchdbPassword'].errors?.required
+                            "
+                            >Please enter Couch DB Secret</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <button class="btn far fa-trash-alt text-danger" (click)="deleteRow(i)"></button> -->
+                  <div class="col-2">
+                    <button
+                      class="btn far fa-trash-alt btn-danger text-white remove_btn"
+                      (click)="deleteRow(i)"
+                    >
+                      Remove
+                    </button>
+                  </div>
+
+                  <div class="header col-12"></div>
+                </div>
+              </div>
+
+              <!-- <table class="table master-table-list-header">
+                <thead>
+                  <tr>
+                    <th scope="col">Peer</th>
+                    <th scope="col">Enroll Secret</th>
+                    <th scope="col">Couch DB Username</th>
+                    <th scope="col">Couch DB Secret</th>
+                    <th scope="col">Couch DB Access</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+              </table>
+              <table class="table master-table-list-body">
+                <div id="peerRows" formArrayName="peerRows">
+                  <tr *ngFor="let itemrow of organisationForm.controls.peerRows['controls']; let i=index"
+                    [formGroupName]="i" class="peer-row">
+                    <td>
+                      <input type="text" class="form-control" formControlName="peer_name" id="peerName"
+                        placeholder="Peer name" (keypress)="omit_special_char($event)" (focusout)="checkNAme($event)">
+                      <span class="error"
+                        *ngIf="((organisationForm.controls.peerRows['controls'][i].controls['peer_name'].touched) && organisationForm.controls.peerRows['controls'][i].controls['peer_name'].errors?.required)">Please
+                        enter Peer Name</span>
+                    </td>
+                    <td>
+                      <input #passField type="password" class="form-control" formControlName="peer_enroll_secret"
+                        id="peerSecret" placeholder="Secret">
+                      <i (click)="togglePassword($event)" class="far fa-eye"></i>
+                      <span class="error"
+                        *ngIf="((organisationForm.controls.peerRows['controls'][i].controls['peer_enroll_secret'].touched) && organisationForm.controls.peerRows['controls'][i].controls['peer_enroll_secret'].errors?.required)">Please
+                        enter Peer Secret</span>
+                    </td>
+
+                    <td>
+                      <input type="text" class="form-control" formControlName="couchdbUsername" id="couchdbUsername"
+                        placeholder="Couch DB Username" (keypress)="omit_special_char($event)"
+                        (focusout)="checkNAme($event)">
+                      <span class="error"
+                        *ngIf="((organisationForm.controls.peerRows['controls'][i].controls['couchdbUsername'].touched) && organisationForm.controls.peerRows['controls'][i].controls['couchdbUsername'].errors?.required)">Please
+                        enter Couch DB Username</span>
+                    </td>
+                    <td>
+                      <input #passField type="password" class="form-control" formControlName="couchdbPassword"
+                        id="couchdbPassword" placeholder="Couch DB Secret">
+                      <i (click)="togglePassword($event)" class="far fa-eye"></i>
+                      <span class="error"
+                        *ngIf="((organisationForm.controls.peerRows['controls'][i].controls['couchdbPassword'].touched) && organisationForm.controls.peerRows['controls'][i].controls['couchdbPassword'].errors?.required)">Please
+                        enter Couch DB Secret</span>
+                    </td>
+
+                    <td>
+                      <input class="form-check-input" type="radio" formControlName="isPublic" id="exampleRadios1{{i}}"
+                        value=true>
+                      <label class="form-check-label" for="exampleRadios1{{i}}">
+                        Public
+                      </label>
+
+
+                      <input class="form-check-input" type="radio" formControlName="isPublic" id="exampleRadios2{{i}}"
+                        value=false>
+                      <label class="form-check-label" for="exampleRadios2{{i}}">
+                        Private
+                      </label>
+                      <span class="error"
+                      *ngIf="((organisationForm.controls.peerRows['controls'][i].controls['isPublic'].touched) && organisationForm.controls.peerRows['controls'][i].controls['isPublic'].errors?.required)">Please
+                      select Couch DB Access</span>
+                    </td>
+
+                    <td>
+                      <i (click)="deleteRow(i)" class="far fa-trash-alt text-danger"></i>
+                    </td>
+                  </tr>
+                </div>
+              </table> -->
+
+              <!-- <div class="add-more">
+                <button class="btn" (click)="addNewRow()"><i class="fas fa-plus-circle"></i>Add More</button>
+              </div> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Activity logs</h5>
+      <button *ngIf="closeAble" (click)="hideActivityModel()" class="btn">
+        <span aria-label="close">x</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>
+            Sit back and relax while we set up the consortium member and its
+            peer(s) for you. We will run numerous technical processes in the
+            background which are depicted in the following activity logs, so be
+            sure not to exit the window as it will impede the thus far progress
+            made.
+          </p>
+        </div>
+        <div class="logs-box">
+          <!-- <div *ngFor="let logs of logsmsg; let i=index"><img src="assets/images/icon-images/{{logs.icon}}"
+              alt="loading"><span>{{logs.msg}}</span></div> -->
+
+          <div *ngFor="let logs of logsmsg; let i = index">
+            <div *ngIf="logs.key != 'array'; else multi">
+              <div #single>
+                <img
+                  src="assets/images/icon-images/{{ logs.icon }}"
+                  alt="loading"
+                /><span [innerHTML]="logs.msg"></span>
+              </div>
+            </div>
+            <ng-template #multi>
+              <div *ngFor="let log of logs.innerlogs; let i = index">
+                <img
+                  src="assets/images/icon-images/{{ log.icon }}"
+                  alt="loading"
+                  (click)="
+                    log.success == 'no'
+                      ? rehitApi(
+                          log.location,
+                          log.index,
+                          log.arrlocation,
+                          log.data,
+                          log.peerName,
+                          log.isPublic
+                        )
+                      : ''
+                  "
+                />
+                <span [innerHTML]="log.msg"></span>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="done-icon-box">
+          <div *ngIf="checkallapis">
+            <p class="install-done">
+              Your consortium member and its Peer(s) has been created
+              Succesfully.
+            </p>
+            <svg
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 130.2 130.2"
+            >
+              <circle
+                class="path circle"
+                fill="none"
+                stroke="#73AF55"
+                stroke-width="6"
+                stroke-miterlimit="10"
+                cx="65.1"
+                cy="65.1"
+                r="62.1"
+              />
+              <polyline
+                class="path check"
+                fill="none"
+                stroke="#73AF55"
+                stroke-width="6"
+                stroke-linecap="round"
+                stroke-miterlimit="10"
+                points="100.2,40.2 51.5,88.8 29.8,67.5 "
+              />
+            </svg>
+          </div>
+          <div *ngIf="failApi">
+            <!-- <p class="install-done">Unable to create consortium member and its Peer(s),<br> Please try again later.</p> -->
+            <p class="install-done">{{ crossError }}</p>
+            <svg
+              width="90px"
+              version="1.1"
+              id="cross-svg"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              x="0px"
+              y="0px"
+              viewBox="0 0 512 512"
+              enable-background="new 0 0 512 512"
+              xml:space="preserve"
+            >
+              <circle
+                class="path circle"
+                id="cross_circle"
+                fill="none"
+                stroke="rgb(236, 60, 60)"
+                stroke-width="30"
+                stroke-miterlimit="10"
+                cx="256"
+                cy="256"
+                r="225"
+                fill="transparent"
+                stroke-linecap="round"
+                stroke-dashoffset="2000"
+                stroke-dasharray="2000"
+              />
+              <g>
+                <rect
+                  class="path rect-x"
+                  id="cross_p1"
+                  x="239.397"
+                  y="67.518"
+                  rx="17"
+                  ry="17"
+                  transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)"
+                  fill="rgb(236, 60, 60)"
+                />
+              </g>
+              <g>
+                <rect
+                  class="path rect-y"
+                  id="cross_p2"
+                  x="239.397"
+                  y="67.519"
+                  rx="17"
+                  ry="17"
+                  transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)"
+                  fill="rgb(236, 60, 60)"
+                />
+              </g>
+            </svg>
+          </div>
+          <div class="install-progress" *ngIf="!checkallapis && !failApi">
+            <p>Installation is in progress...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #invalidAccess let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Invalid Access</h5>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Please select the Network First</p>
+        </div>
+        <div class="modal-footer">
+          <button (click)="goToNetworkList()" class="btn btn-primary">
+            Ok
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

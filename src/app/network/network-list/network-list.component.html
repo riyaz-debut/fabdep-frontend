@@ -1,0 +1,41 @@
+<div class="main-section">
+  <div class="inner-section">
+    <div class="">
+      <div class="networks">
+        <div class="row">
+          <div class="col-md-6 col-lg-4 tab-wrap">
+            <div class="tab-box add-network">
+              <div class="network-wrapper">
+                <a routerLink="/network/create-network" class="add-network-link" href="#">
+                  <i class="fas fa-plus"></i>
+                  Create Network
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4 tab-wrap" *ngFor="let data of records">
+            <div class="tab-box">
+              <img src="assets/images/cluster-icon-black.png" alt="">
+              <div class="header">
+                <h6>{{data.name}}</h6>
+                <span class="badge badge-success">completed</span>
+              </div>
+              <p><span>Organisations :</span>{{data.organisations.length ? data.organisations.length : 0}}</p>
+              <p><span>No. of Peers :</span>
+                {{data.organisations.length ? count(data.organisations) : 0}}
+            </p>
+            <!-- <div *ngFor="let org of data.organisations">
+
+              {{count(org)}}
+              {{count(org.peers.length)}} 
+               {{peerCount org.peers.length}}
+            </div> -->
+              <p><a (click)="setNetworkId(data._id)" routerLink="/inner-sidebar/ca">View details<i
+                    class="fas fa-chevron-right"></i></a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,316 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Create Channel</h4>
+            <button class="btn" (click)="addChannel()">Add Channel</button>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <form [formGroup]="channelForm">
+            <div class="basic-info">
+              <div class="form-group">
+                <label for="Channel-name">Name :</label>
+                <div>
+                  <div class="field-outer">
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="name"
+                      (keypress)="omit_special_char($event)"
+                      id="Channel-name"
+                      placeholder="e.g. mychannel"
+                    />
+                  </div>
+                  <span
+                    *ngIf="
+                      channelForm.controls.name.touched &&
+                      channelForm.controls.name.errors?.required
+                    "
+                    class="error"
+                    >Please enter channel name</span
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="ordererServiceId">Ordering Service :</label>
+                <div class="chosen-box">
+                  <div class="field-outer">
+                    <select
+                      formControlName="ordererserviceId"
+                      data-placeholder="Choose a Orderer Service"
+                      class="form-control"
+                      id="ordererserviceId"
+                    >
+                      <!-- <option value="">Select Orderer Service</option> -->
+                      <option
+                        *ngFor="let orderingService of orderingServices"
+                        value="{{ orderingService._id }}"
+                      >
+                        {{ orderingService.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="field-outer">
+                    <span
+                      *ngIf="
+                        channelForm.controls['ordererserviceId'].touched &&
+                        channelForm.controls['ordererserviceId'].errors
+                          ?.required
+                      "
+                      class="error"
+                      >Please choose Orderer Service
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="operators">Operators :</label>
+                <div class="chosen-box">
+                  <div class="field-outer">
+                    <select
+                      formControlName="operators"
+                      data-placeholder="Choose operators"
+                      id="operators"
+                      class="form-control"
+                      multiple
+                    >
+                      <option
+                        *ngFor="let operator of operators"
+                        value="{{ operator._id }}"
+                      >
+                        {{ operator.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="field-outer">
+                    <span
+                      *ngIf="
+                        channelForm.controls['operators'].touched &&
+                        channelForm.controls['operators'].errors?.required
+                      "
+                      class="error"
+                      >Please Select operators
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="ordererServiceId">Peer :</label>
+                <div class="chosen-box">
+                  <div class="field-outer">
+                    <select
+                      formControlName="peerId"
+                      data-placeholder="Choose Peer"
+                      class="form-control"
+                      id="peerId"
+                      multiple
+                    >
+                      <optgroup
+                        *ngFor="let peers of peersData; let i = index"
+                        label="{{ peers.name }}"
+                      >
+                        <option
+                          *ngFor="let peer of peers.peer"
+                          value="{{ peer._id }}"
+                        >
+                          {{ peer.name }}
+                        </option>
+                      </optgroup>
+                    </select>
+                  </div>
+                  <div class="field-outer">
+                    <span
+                      *ngIf="
+                        channelForm.controls['peerId'].touched &&
+                        channelForm.controls['peerId'].errors?.required
+                      "
+                      class="error"
+                      >Please choose peer
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-xl-6">
+          <div class="info-box">
+            <h6>Information</h6>
+            <ul>
+              <li>
+                A channel is a private “subnet” of communication between two or
+                more specific network members, for the purpose of conducting
+                private and confidential transactions.
+              </li>
+              <li>
+                Select the ordering service on which channel will be created.
+              </li>
+              <li>
+                Select the operator organizations which must be a subset of the
+                consortium members.
+              </li>
+              <li>Select the peers that need to join the channel.</li>
+            </ul>
+            <div id="curvedarrow"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Activity logs</h5>
+      <button *ngIf="closeAble" (click)="hideActivityModel()" class="btn">
+        <span aria-label="close">x</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>
+            Sit back and relax while we set up the channel for you. We will run
+            numerous technical processes in the background which are depicted in
+            the following activity logs, so be sure not to exit the window as it
+            will impede the thus far progress made.
+          </p>
+        </div>
+        <div class="logs-box">
+          <div *ngFor="let logs of logsmsg; let i = index">
+            <img
+              src="assets/images/icon-images/{{ logs.icon }}"
+              alt="loading"
+              (click)="
+                logs.success == 'no'
+                  ? rehitApi(
+                      logs.index,
+                      logs.channelId,
+                      logs.peerId,
+                      logs.iconLocation,
+                      logs.peerNames,
+                      logs.loopIndex
+                    )
+                  : ''
+              "
+            /><span>{{ logs.msg }}</span>
+          </div>
+        </div>
+        <div class="done-icon-box">
+          <div *ngIf="checkallapis">
+            <p class="install-done">
+              Congratulations, your channel has been created successfully.
+            </p>
+            <svg
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 130.2 130.2"
+            >
+              <circle
+                class="path circle"
+                fill="none"
+                stroke="#a2e774"
+                stroke-width="6"
+                stroke-miterlimit="10"
+                cx="65.1"
+                cy="65.1"
+                r="62.1"
+              />
+              <polyline
+                class="path check"
+                fill="none"
+                stroke="#a2e774"
+                stroke-width="6"
+                stroke-linecap="round"
+                stroke-miterlimit="10"
+                points="100.2,40.2 51.5,88.8 29.8,67.5 "
+              />
+            </svg>
+          </div>
+          <div *ngIf="failApi">
+            <p class="install-done">
+              Unable to create channel, Please try again later.
+            </p>
+            <svg
+              width="90px"
+              version="1.1"
+              id="cross-svg"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              x="0px"
+              y="0px"
+              viewBox="0 0 512 512"
+              enable-background="new 0 0 512 512"
+              xml:space="preserve"
+            >
+              <circle
+                class="path circle"
+                id="cross_circle"
+                fill="none"
+                stroke="rgb(236, 60, 60)"
+                stroke-width="30"
+                stroke-miterlimit="10"
+                cx="256"
+                cy="256"
+                r="225"
+                fill="transparent"
+                stroke-linecap="round"
+                stroke-dashoffset="2000"
+                stroke-dasharray="2000"
+              />
+              <g>
+                <rect
+                  class="path rect-x"
+                  id="cross_p1"
+                  x="239.397"
+                  y="67.518"
+                  rx="17"
+                  ry="17"
+                  transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)"
+                  fill="rgb(236, 60, 60)"
+                />
+              </g>
+              <g>
+                <rect
+                  class="path rect-y"
+                  id="cross_p2"
+                  x="239.397"
+                  y="67.519"
+                  rx="17"
+                  ry="17"
+                  transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)"
+                  fill="rgb(236, 60, 60)"
+                />
+              </g>
+            </svg>
+          </div>
+          <div class="install-progress" *ngIf="!checkallapis && !failApi">
+            <p>Installation is in progress...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #invalidAccess let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Invalid Access</h5>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Please Select network First</p>
+        </div>
+        <div class="modal-footer">
+          <button (click)="goToNetworkList()" class="btn btn-primary">
+            Ok
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

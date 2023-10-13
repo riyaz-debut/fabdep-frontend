@@ -1,0 +1,138 @@
+@import '../../../../variables';
+
+.main-section {
+  // padding-left: 12px;
+  // height: 100%;
+  height: 100%;
+  .inner-section {
+    background: $white;
+    // height: calc(100vh + -103px);
+    overflow-y: auto;
+    height: 100%;
+  // padding-bottom: 1rem;
+  // box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+
+    .header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      border-bottom: 2px dashed $headingBorder;
+      margin-bottom: 20px;
+      padding: 14px;
+
+      h4 {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        color: $primary;
+        font-weight: 600;
+      }
+
+      .btn {
+        position: absolute;
+        right: 0;
+        background: $buttonColor;
+        color: $white;
+        font-weight: 500;
+        font-size: 13px;
+        padding: 0.375rem 0.5rem;
+
+        &:hover {
+          background: $white;
+          color: $buttonColor;
+          border: 1px solid $buttonColor;
+        }
+      }
+    }
+
+    .basic-info {
+      .form-group {
+        display: flex;
+        .admnSecret-box{
+          position: relative;
+          i {
+            cursor: pointer;
+            position: absolute;
+            top: 11px;
+            opacity: 0.8;
+            font-size: 12px;
+            right: 14px;
+          }
+        }
+
+        // margin-bottom: 8px;
+        label {
+          margin: 0;
+          color: #000000d6;
+          min-width: 135px;
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        input,
+        textarea,
+        select {
+          //  width: 350px;
+        }
+
+        div {
+          width: 100%;
+        }
+
+        .form-check {
+          input {
+            // width: inherit;
+          }
+        }
+      }
+    }
+
+  }
+}
+
+.info-box {
+  min-height: 100px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  background: #dddddd7a;
+  border-radius: 8px;
+  box-shadow: 0 0 7px rgba(204, 204, 204, 0.79);
+  min-width: 300px;
+  max-width: 500px;
+  margin: auto;
+
+  #curvedarrow {
+    position: relative;
+  }
+
+  #curvedarrow:after {
+    content: "";
+    position: absolute;
+    border: 0px solid transparent;
+    border-top: 16px solid #eeeeee;
+    border-radius: 30px 0 0 0;
+    bottom: -28px;
+    left: 12px;
+    width: 26px;
+    height: 42px;
+    transform: rotate(-270deg) scaleX(-1);
+  }
+
+  h6 {
+    text-align: center;
+    padding: 16px 0 6px;
+    color: #212121;
+    border-bottom: 1px solid #e0e0e0;
+    margin: 0 26px 10px;
+  }
+
+  ul {
+    list-style: decimal;
+
+    li {
+      font-size: 13px;
+      padding-left: 4px;
+      color: #272727;
+      margin-bottom: 4px;
+    }
+  }
+}

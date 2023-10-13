@@ -1,0 +1,91 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>View Peer details</h4>
+            <button routerLink="/inner-sidebar/peer" class="btn">Back to
+              List</button>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="basic-info">
+            <div class="form-group">
+              <label for="name">Name :</label>
+              <div class="static-text">{{peerData ? peerData.name : ''}}</div>
+            </div>
+            <div class="form-group">
+              <label for="type">Organisation :</label>
+              <div class="static-text">
+                {{peerData ? peerData.orgId.name : ''}}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="network">Peer Port :</label>
+              <div class="static-text">
+                {{peerData ? peerData.peerport :''}}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="admin-id">Couch DB Port :</label>
+              <div class="static-text">{{peerData ? peerData.couchdbport:''}}</div>
+            </div>
+
+            <div class="form-group">
+              <label for="admin-id">Couch DB UserName :</label>
+              <div class="static-text">{{peerData ? peerData.couchdbUsername:''}}</div>
+            </div>
+
+
+            <div class="form-group">
+              <label for="admin-scret">Couch DB Password : </label>
+              <div class="static-text">{{peerData ? peerData.peer_enroll_secret: ''}}
+                <!-- <i class="far fa-eye" placement="top" ngbTooltip="View" tooltipClass="tooltip-custom-class"></i> -->
+              </div>
+            </div>
+
+            <div *ngIf="peerData" class="form-group">
+              <label for="admin-id">Couch DB Access :</label>
+              <div class="static-text">
+                {{peerData.isCouchDbPublic == true ? 'Public' :'Private'}}
+                <button *ngIf="peerData.isCouchDbPublic == true && !isloading; else updateTrue"
+                  (click)="updatePeerCouchService(peerData._id,false)" class="btn">Change</button>
+                <ng-template #updateTrue>
+                  <button *ngIf="!isloading" (click)="updatePeerCouchService(peerData._id,true)" class="btn">Change</button>
+                </ng-template>
+
+                <button *ngIf="isloading" class="btn btn-primary" disabled>
+                  <span class="spinner-border spinner-border-sm"></span>
+                </button>
+
+              </div>
+
+              <!-- <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="switch{{i}}">
+                <label class="custom-control-label" for="switch{{i}}"></label>
+              </div> -->
+
+            </div>
+
+            <div class="form-group">
+              <label for="port">Chain Code Port :</label>
+              <div class="static-text">{{peerData ? peerData.chaincodeport : ''}}</div>
+            </div>
+            <div class="form-group">
+              <label for="created-dt">Created Dt :</label>
+              <div class="static-text">{{peerData ? (peerData.created_at | date: 'medium' : 'locale' ) : ''}}</div>
+            </div>
+            <!-- <div class="form-group">
+              <label for="updated-dt">Updated Dt :</label>
+              <div class="static-text">{{peerData ? certificateAuthorityData.updated_at : ''}}</div>
+            </div> -->
+            <!-- <div class="button">
+                    <button class="btn">Back</button>
+              </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

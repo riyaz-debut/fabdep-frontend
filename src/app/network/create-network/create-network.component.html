@@ -1,0 +1,151 @@
+<div class="main-section">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Create Network</h4>
+            <button class="btn" (click)="submit()">Add Network</button>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <form [formGroup]="caForm">
+            <div class="basic-info">
+              <div class="form-group">
+                <label for="network_name">Network Name : </label>
+                <div>
+                  <input type="text" formControlName="networkName" (keypress)="omit_special_char($event)"
+                    class="form-control" id="network_name" placeholder="Network Name">
+                  <span class="error"
+                    *ngIf="((caForm.controls['networkName'].touched) && (caForm.controls['networkName'].errors?.required))">Network
+                    is required.</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="selectBox">Clusters : </label>
+                <div>
+                  <div class="field-outer">
+                    <select data-placeholder="Choose Cluster" class="form-control" id="clusterDropDown" multiple>
+                      <!-- <option value="">Select Orderer Service</option> -->
+                      <option *ngFor="let cluster of clusters; index as i" value="{{cluster._id}}">{{cluster.name}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="field-outer">
+                    <span class="error"
+                      *ngIf="((caForm.controls['cluster'].touched) && (caForm.controls['cluster'].errors?.required))">Clusters
+                      is required.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="admin-id">Registrar Id :</label>
+                <div>
+                  <input type="text" formControlName="admnId"  (keypress)="omit_special_char($event)" class="form-control" name="admin-id" id="admin-id"
+                    placeholder="Admin Id">
+                  <span class="error"
+                    *ngIf="((caForm.controls['admnId'].touched) && (caForm.controls['admnId'].errors?.required))">Admin
+                    Id
+                    is required.</span>
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                <label for="password">Registrar Secret :</label>
+                <div class="registrar-secret-box">
+                  <input type="{{pwdShow ? 'text' : 'password'}}" formControlName="admnSecret" class="form-control"
+                    name="admnSecret" id="password" placeholder="Password">
+                  <i (click)="pwdShow = !pwdShow" class="far fa-eye"></i>
+                  <span class="error"
+                    *ngIf="((caForm.controls['admnSecret'].touched) && (caForm.controls['admnSecret'].errors?.required))">Password
+                    is required</span>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <ng-template #content let-modal>
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-basic-title">Activity Logs</h5>
+              <button *ngIf="closeAble" (click)="hideActivityModel()" class="btn">
+                <span aria-label="close">x</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="parent-box">
+                <div class="below-header">
+                  <p>Sit back and relax while we set up the network for you. We will run numerous technical processes in
+                    the background which are depicted in the following activity logs, so be sure not to exit the window
+                    as it will impede the thus far progress made.
+                  </p>
+                </div>
+
+                <div class="logs-box">
+                  <div *ngFor="let logs of logsmsg; let i=index">
+                    <img src="assets/images/icon-images/{{logs.icon}}" (click)="logs.success=='no'?rehitApi(logs.index,logs.data,logs.name,logs.clusterId,logs.loopIndex)
+                      : '' " alt="loading">
+                    <span>{{logs.msg}}</span>
+                  </div>
+                </div>
+
+                <div class="done-icon-box">
+                  <div class="install-progress" *ngIf="showErrorBtn;else other_content">
+                    <!-- <button type="button" class="btn btn-danger" (click)="hideActivityModel()">Close</button>
+                  -->
+                    <p class="install-done">Installation failed, Please try again later.</p>
+                    <svg width='90px' version="1.1" id="cross-svg" xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
+                      enable-background="new 0 0 512 512" xml:space="preserve">
+                      <circle class="path circle" id="cross_circle" fill="none" stroke="rgb(236, 60, 60)"
+                        stroke-width="30" stroke-miterlimit="10" cx="256" cy="256" r="225" fill="transparent"
+                        stroke-linecap="round" stroke-dashoffset="2000" stroke-dasharray="2000" />
+                      <g>
+
+                        <rect class="path rect-x" id="cross_p1" x="239.397" y="67.518" rx="17" ry="17"
+                          transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)" fill="rgb(236, 60, 60)" />
+                      </g>
+                      <g>
+
+                        <rect class="path rect-y" id="cross_p2" x="239.397" y="67.519" rx="17" ry="17"
+                          transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)" fill="rgb(236, 60, 60)" />
+                      </g>
+                    </svg>
+                  </div>
+                  <ng-template #other_content>
+                    <div class="install-progress" *ngIf="!success">
+                      <p>Installation is in progress...</p>
+                    </div>
+
+                  </ng-template>
+                  <div *ngIf="success">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                      <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10"
+                        cx="65.1" cy="65.1" r="62.1" />
+                      <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round"
+                        stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <div class="info-box">
+            <h6>Information</h6>
+            <ul>
+              <li>In this step, the namespace for network will be created on the Kubernetes cluster..</li>
+              <li>The namespace will be of similar name as that of network name.</li>
+              <li>The TLS CA will also be created along with network under network namespace.</li>
+              <li>An admin to TLS CA will also be registered and enrolled in this step</li>
+            </ul>
+            <div id="curvedarrow"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

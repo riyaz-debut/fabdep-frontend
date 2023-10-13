@@ -1,0 +1,152 @@
+<div class="main-section">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Edit CA</h4>
+            <button class="btn" (click)="submit()">Save</button>
+          </div>
+        </div>
+        <div class="col-6">
+          <form [formGroup]="caForm">
+            <div class="basic-info">
+              <!--   <div *ngIf="!getNetworkId;">
+                <div class="form-group">
+                  <label for="network_name">Network Name : </label>
+                  <input type="text" readonly="{{getNetworkId  ? 'true' :''}}" formControlName="networkName"
+                    class="form-control" id="network_name" placeholder="Network Name">
+                </div> -->
+
+              <!-- <div class="form-group">
+                  <label for="network_name">Network Name : </label>
+                  <div>
+                    <input type="text" readonly="{{getNetworkId  ? 'true' :''}}" formControlName="networkName"
+                      class="form-control" id="network_name" placeholder="Network Name">
+                    <span class="error"
+                      *ngIf="((caForm.controls['networkName'].touched) && (caForm.controls['networkName'].errors?.required))">Network
+                      is required.</span>
+                  </div>
+                </div> -->
+
+
+              <!-- <div class="form-group">
+                  <label for="selectBox">Clusters : </label>
+                  <div>
+                    <select name="selectBox" formControlName="cluster" class="form-control" id="selectBox">
+                      <option value="">Select Cluster</option>
+                      <option *ngFor="let cluster of clusters; index as i" value="{{cluster._id}}">{{cluster.name}}
+                      </option>
+                    </select>
+                    <span class="error"
+                      *ngIf="((caForm.controls['cluster'].touched) && (caForm.controls['cluster'].errors?.required))">Clusters
+                      is required.</span>
+                  </div>
+                </div> 
+              </div> -->
+
+
+              <div class="form-group">
+                <label for="ca-name">CA Name :</label>
+                <div>
+                  <input type="text" formControlName="name" class="form-control" name="ca-name" id="ca-name"
+                    placeholder="CA Name" readonly>
+                  <span class="error"
+                    *ngIf="((caForm.controls['name'].touched) && (caForm.controls['name'].errors?.required))">Name is
+                    required..</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="radio-buttons">Type :</label>
+                <div class="form-check">
+                  <input class="form-check-input" formControlName="isTLS" type="radio" id="exampleRadios1" value="0"
+                    checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                    Basic
+                  </label>
+                </div>
+                <span class="error"
+                  *ngIf="((caForm.controls['isTLS'].touched) && (caForm.controls['isTLS'].errors?.required))">Type is
+                  required.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="admin-id">Root Admin Id :</label>
+                <div>
+                  <input type="text" formControlName="admnId" class="form-control" name="admin-id" id="admin-id"
+                    placeholder="Admin Id" readonly>
+                  <span class="error"
+                    *ngIf="((caForm.controls['admnId'].touched) && (caForm.controls['admnId'].errors?.required))">Admin
+                    Id
+                    is required.</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="password">Root Admin Secret: </label>
+                <div>
+                  <input type="password" formControlName="admnSecret" class="form-control" name="admnSecret"
+                    id="password" placeholder="Password" readonly>
+                  <span class="error"
+                    *ngIf="((caForm.controls['admnSecret'].touched) && (caForm.controls['admnSecret'].errors?.required))">Password
+                    is required</span>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <ng-template #content let-modal>
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-basic-title">Activity Logs</h5>
+              <button *ngIf="closeAble" (click)="hideActivityModel()" class="btn">
+                <span aria-label="close">x</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="parent-box">
+                <div class="below-header">
+                  <p>Sit back and relax while we set up the Network for you. Meanwhile, be sure not to exit the window
+                    as it will impede the
+                    thus far progress made. While setting up the cluster, we will run numerous technical processes in
+                    the background which
+                    will be depicted in the following activity logs:</p>
+                </div>
+                <div class="logs-box">
+                  <div *ngFor="let logs of logsmsg; let i=index"><img src="assets/images/icon-images/{{logs.icon}}"
+                      alt="loading"><span>{{logs.msg}}</span></div>
+                </div>
+                <div class="done-icon-box">
+                  <div class="install-progress" *ngIf="!success">
+                    <p>Installation is in progress...</p>
+                  </div>
+                  <div *ngIf="success">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                      <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10"
+                        cx="65.1" cy="65.1" r="62.1" />
+                      <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round"
+                        stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+        <div class="col-6">
+          <div class="random">
+            <ul>
+              <li>Notes</li>
+              <li>Lorem ipsum dolor sit am at, quia laborum porro quod!</li>
+              <li>Lorem ipsum dolor sit am at, quia laborum porro quod!</li>
+              <li>Lorem ipsum dolor sit am at, quia laborum porro quod!</li>
+              <li>Lorem ipsum dolor sit am at, quia laborum porro quod!</li>
+              <li>Lorem ipsum dolor sit am at, quia laborum porro quod!</li>
+              <li>hello</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

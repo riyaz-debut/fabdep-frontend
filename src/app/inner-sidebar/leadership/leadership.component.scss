@@ -1,0 +1,175 @@
+@import '../../../variables';
+
+.main-section {
+  padding: 1rem;
+
+  .inner-section {
+    position: relative;
+    overflow-y: auto;
+    height: calc(100vh + -98px);
+    padding-bottom: 4rem;
+    //   background: $white;
+    //   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+    background: transparent;
+
+    .networks {
+      // padding: 6px;
+      display: flex;
+      flex-wrap: wrap;
+
+      .row {
+        width: 100%;
+        margin: 0;
+
+        .col-4 {
+          padding: 0;
+          padding: 6px;
+
+          .tab-box {
+            position: relative;
+            width: 100%;
+            padding: 20px;
+            min-height: 180px;
+            // background: rgba(6, 103, 174, 0.06);
+            // border: 1px solid #d3e2ec;
+            // border-radius: 2px;
+            background: rgb(255, 255, 255);
+            border: 1px solid #d4d4d4de;
+            border-radius: 2px;
+            box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.16);
+            transition: 0.1s linear;
+
+            &:hover {
+              box-shadow: 1px 1px 6px #bdbdbd, 0px 1px 6px #bdbdbd;
+              transition: 0.1s linear;
+            }
+
+            img {
+              width: 100%;
+              max-width: 121px;
+              position: absolute;
+              right: 1px;
+              top: 23px;
+              opacity: 0.06;
+
+            }
+
+            .header {
+              position: relative;
+              display: flex;
+              align-items: center;
+              margin-bottom: 16px;
+
+              h6 {
+                margin: 0;
+                font-size: 22px;
+                font-weight: 600;
+
+              }
+
+              .badge {
+                position: absolute;
+                right: 0;
+                font-size: 11px;
+                text-transform: capitalize;
+              }
+
+              .badge-warning {
+                color: white;
+              }
+            }
+
+            p {
+              font-size: 13px;
+              font-weight: 600;
+              margin: 0;
+              margin-bottom: 7px;
+
+              &:last-child {
+                position: absolute;
+                bottom: 0px;
+                margin: 0;
+                font-size: 11px;
+                text-align: right;
+                width: 100%;
+                color: #3c4246;
+                left: 0;
+                padding: 10px 20px;
+                a {
+                  text-decoration: none;
+                  color: #3c4246;
+                  i {
+                    font-size: 8px;
+                    margin-left: 6px;
+                  }
+                }
+              }
+
+              span {
+                margin-right: 4px;
+                color: #737373;
+              }
+            }
+
+
+          }
+
+          .add-network {
+            display: flex;
+            justify-content: center;
+            align-items: space-between;
+            .network-wrapper {
+                  display: flex;
+                  width: 100%;
+                  border: 2px dashed #f1f1f1;
+              .add-network-link {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                text-decoration: none;
+                color: #676767;
+  
+                i {
+                  font-size: 30px;
+                  margin-bottom: 8px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+    .no-network {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      // padding-top: 100px;
+      height: 100%;
+
+      img {
+        width: 100%;
+        max-width: 200px;
+        opacity: 0.4;
+      }
+
+      p {
+        width: 540px;
+        text-align: center;
+        color: grey;
+        margin-top: 26px;
+      }
+
+      .btn {
+        background: $primary;
+        color: $white;
+      }
+    }
+  }
+
+}

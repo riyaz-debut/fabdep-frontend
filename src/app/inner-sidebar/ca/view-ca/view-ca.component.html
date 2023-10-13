@@ -1,0 +1,67 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>View CA details</h4>
+            <button routerLink="/inner-sidebar/ca" class="btn">Back to
+              List</button>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="basic-info">
+            <div class="form-group">
+              <label for="name">Name :</label>
+              <div class="static-text">{{certificateAuthorityData ? certificateAuthorityData.name : ''}}</div>
+            </div>
+            <div class="form-group">
+              <label for="type">Type :</label>
+              <div class="static-text">
+                <span *ngIf="certificateAuthorityData">
+                  {{certificateAuthorityData.isTLS == 0 ? 'Basic' : 'TLS'}}
+                </span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="network">Network :</label>
+              <div class="static-text">
+                {{certificateAuthorityData ? certificateAuthorityData.networkId.name :''}}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="admin-id">Admin Id :</label>
+              <div class="static-text">{{certificateAuthorityData ? certificateAuthorityData.admnId:''}}</div>
+            </div>
+            <!-- <div class="form-group">
+              <label for="admin-scret">Admin Secret :</label>
+              <div class="static-text">{{certificateAuthorityData ? certificateAuthorityData.admnSecret: ''}}</div>
+            </div> -->
+            <div class="form-group">
+              <label for="port">Port :</label>
+              <div class="static-text">{{certificateAuthorityData ? certificateAuthorityData.port : ''}}</div>
+            </div>
+            <div class="form-group">
+              <label for="cluster">Cluster :</label>
+              <div class="static-text">
+                {{certificateAuthorityData ? certificateAuthorityData.clusterId.name : ''}}
+
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="created-dt">Created Date :</label>
+              <div class="static-text">{{certificateAuthorityData ? (certificateAuthorityData.created_at | date: 'medium' : 'locale') : ''}}</div>
+            </div>
+            <!-- <div class="form-group">
+              <label for="updated-dt">Updated Dt :</label>
+              <div class="static-text">{{certificateAuthorityData ? certificateAuthorityData.updated_at : ''}}</div>
+            </div> -->
+            <!-- <div class="button">
+                    <button class="btn">Back</button>
+              </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

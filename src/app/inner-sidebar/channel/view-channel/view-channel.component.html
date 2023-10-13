@@ -1,0 +1,489 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>View Channel details</h4>
+            <button
+              (click)="exportChannel(channelData._id)"
+              class="btn btn-export"
+            >
+              Export
+            </button>
+            <button routerLink="/inner-sidebar/channel" class="btn">
+              Back to List
+            </button>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="basic-info">
+            <div class="form-group">
+              <label for="name">Name :</label>
+              <div class="static-text">
+                {{ channelData ? channelData.name : "" }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="type">Orderer Service:</label>
+              <div class="static-text">
+                <div *ngIf="channelData">
+                  {{ channelData ? channelData.ordererservices.name : "" }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="created-dt">Created Date :</label>
+              <div class="static-text">
+                {{
+                  channelData
+                    ? (channelData.created_at | date: "medium":"locale")
+                    : ""
+                }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="button-box make-admin-box">
+            <h4>Add Organisation</h4>
+            <form [formGroup]="addOrganisation">
+              <ng-container>
+                <div class="form-group">
+                  <select
+                    class="form-control"
+                    formControlName="organisation"
+                    (change)="hideBtn($event.target.value)"
+                  >
+                    <option *ngIf="!organisationList.length" value=""
+                      >No Organisation Found</option
+                    >
+                    <option *ngIf="organisationList.length" value=""
+                      >Select Organisation</option
+                    >
+                    <option
+                      *ngFor="let org of organisationList"
+                      value="{{ org._id }}"
+                      >{{ org.name }}</option
+                    >
+                  </select>
+                  <span
+                    *ngIf="
+                      addOrganisation.controls['organisation'].touched &&
+                      addOrganisation.controls['organisation'].errors?.required
+                    "
+                    class="error"
+                    >Please select consortium member
+                  </span>
+                </div>
+                <div class="custom-checkbox">
+                  <input type="checkbox" formControlName="admin" id="html" />
+                  <label for="html">Make as Admin</label>
+                </div>
+                <div class="form-group set-peer">
+                  <select class="form-control" id="peer-dropdown" multiple>
+                    <option
+                      *ngFor="let peer of orgPeerData"
+                      value="{{ peer._id }}"
+                      >{{ peer.name }}</option
+                    >
+                  </select>
+                  <span
+                    *ngIf="
+                      addOrganisation.controls['anchorpeerId'].touched &&
+                      addOrganisation.controls['anchorpeerId'].errors?.required
+                    "
+                    class="error"
+                    >Please select Peer
+                  </span>
+                </div>
+              </ng-container>
+
+              <div>
+                <button (click)="SaveOrganisation()" class="btn btn-success">
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="header-box">
+          <h4>Operator List</h4>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">MSP</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of joinOrgs">
+              <td>
+                <span class="name-circle">{{ data.organisation.name }}</span>
+              </td>
+              <td>{{ data.organisation.mspId }}</td>
+              <td>
+                <button
+                  *ngIf="channelData.operators.includes(data.organisation._id)"
+                  (click)="
+                    deleteModelPopUp(
+                      channelData._id,
+                      data.organisation._id,
+                      false
+                    )
+                  "
+                  class="btn btn-outline-danger outline-btn"
+                >
+                  Remove as Admin
+                </button>
+                <button
+                  *ngIf="!channelData.operators.includes(data.organisation._id)"
+                  (click)="
+                    addAsAdmin(channelData._id, data.organisation._id, false, 0)
+                  "
+                  class="btn btn-outline-success outline-btn"
+                >
+                  Add as Admin
+                </button>
+                <button
+                  (click)="
+                    deleteModelPopUp(
+                      channelData._id,
+                      data.organisation._id,
+                      true
+                    )
+                  "
+                  class="btn btn-outline-danger outline-btn"
+                >
+                  Remove from Channel
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <ng-template #deleteModel let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">
+        Remove
+        {{ deleteIds.isRemoveOrg ? "organisation" : "organisation as admin" }}
+      </h5>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>
+            Are you sure, you want to remove
+            {{
+              deleteIds.isRemoveOrg ? "organisation" : "organisation as admin"
+            }}
+            from channel ?
+          </p>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button
+            type="button"
+            ngbAutofocus
+            class="btn btn-success red-btn"
+            (click)="deleteRecord()"
+            (click)="modal.close('Ok click')"
+          >
+            Yes
+          </button>
+          <button
+            type="button"
+            class="btn btn-dark cancel-btn"
+            (click)="modal.dismiss('cancel click')"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #activityLogs let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Activity logs</h5>
+      <button *ngIf="closeAble" (click)="hideActivityModel()" class="btn">
+        <span aria-label="close">x</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>
+            Sit back and relax while we are removing
+            {{
+              deleteIds.isRemoveOrg ? "organisation" : "organisation as admin"
+            }}
+            from channel. We will run numerous technical processes in the
+            background which are depicted in the following activity logs, so be
+            sure not to exit the window as it will impede the thus far progress
+            made.
+          </p>
+        </div>
+        <div class="logs-box">
+          <div *ngFor="let logs of logsmsg; let i = index">
+            <img
+              (click)="logs.success != true ? reHittRemoveApi(logs.index) : ''"
+              src="assets/images/icon-images/{{ logs.icon }}"
+              alt="loading"
+            /><span>{{ logs.msg }}</span>
+          </div>
+        </div>
+        <div class="done-icon-box">
+          <div *ngIf="success">
+            <p class="install-done">
+              Congratulations, organisation or admin from channel removed
+              successfully.
+            </p>
+            <svg
+              id="check-svg"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 130.2 130.2"
+            >
+              <circle
+                class="path circle"
+                fill="none"
+                stroke="#73ae55"
+                stroke-width="6"
+                stroke-miterlimit="10"
+                cx="65.1"
+                cy="65.1"
+                r="62.1"
+              />
+              <polyline
+                class="path check"
+                fill="none"
+                stroke="#73ae55"
+                stroke-width="6"
+                stroke-linecap="round"
+                stroke-miterlimit="10"
+                points="100.2,40.2 51.5,88.8 29.8,67.5 "
+              />
+            </svg>
+          </div>
+          <div *ngIf="failApi">
+            <p class="install-done">
+              Unable to remove
+              {{
+                deleteIds.isRemoveOrg ? "organisation" : "organisation as admin"
+              }}
+              from channel , Please try again later.
+            </p>
+            <svg
+              width="90px"
+              (click)="hideActivityModel()"
+              version="1.1"
+              id="cross-svg"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              x="0px"
+              y="0px"
+              viewBox="0 0 512 512"
+              enable-background="new 0 0 512 512"
+              xml:space="preserve"
+            >
+              <circle
+                class="path circle"
+                id="cross_circle"
+                fill="none"
+                stroke="rgb(236, 60, 60)"
+                stroke-width="30"
+                stroke-miterlimit="10"
+                cx="256"
+                cy="256"
+                r="225"
+                fill="transparent"
+                stroke-linecap="round"
+                stroke-dashoffset="2000"
+                stroke-dasharray="2000"
+              />
+              <g>
+                <rect
+                  class="path rect-x"
+                  id="cross_p1"
+                  x="239.397"
+                  y="67.518"
+                  rx="17"
+                  ry="17"
+                  transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)"
+                  fill="rgb(236, 60, 60)"
+                />
+              </g>
+              <g>
+                <rect
+                  class="path rect-y"
+                  id="cross_p2"
+                  x="239.397"
+                  y="67.519"
+                  rx="17"
+                  ry="17"
+                  transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)"
+                  fill="rgb(236, 60, 60)"
+                />
+              </g>
+            </svg>
+          </div>
+          <div class="install-progress" *ngIf="!success && !failApi">
+            <p>
+              Removing
+              {{
+                deleteIds.isRemoveOrg ? "organisation" : "organisation as admin"
+              }}
+              is in progress...
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #activityLogsAdd let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Activity logs</h5>
+      <button *ngIf="closeAble" (click)="hideAddActivityModel()" class="btn">
+        <span aria-label="close">x</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>
+            Sit back and relax while we adding {{ addLabel }} in channel. We
+            will run numerous technical processes in the background which are
+            depicted in the following activity logs, so be sure not to exit the
+            window as it will impede the thus far progress made.
+          </p>
+        </div>
+        <div class="logs-box">
+          <div *ngFor="let logs of logsmsg; let i = index">
+            <img
+              (click)="
+                logs.success != true
+                  ? reHitApi(
+                      logs.index,
+                      i,
+                      logs.data,
+                      logs.logIndex,
+                      logs.peerId,
+                      logs.peerNames,
+                      logs.iconLocation
+                    )
+                  : ''
+              "
+              src="assets/images/icon-images/{{ logs.icon }}"
+              alt="loading"
+            /><span>{{ logs.msg }}</span>
+          </div>
+        </div>
+        <div class="done-icon-box">
+          <div *ngIf="success">
+            <p class="install-done">
+              Congratulations, {{ addLabel }} in channel added successfully.
+            </p>
+            <svg
+              id="check-svg"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 130.2 130.2"
+            >
+              <circle
+                class="path circle"
+                fill="none"
+                stroke="#73ae55"
+                stroke-width="6"
+                stroke-miterlimit="10"
+                cx="65.1"
+                cy="65.1"
+                r="62.1"
+              />
+              <polyline
+                class="path check"
+                fill="none"
+                stroke="#73ae55"
+                stroke-width="6"
+                stroke-linecap="round"
+                stroke-miterlimit="10"
+                points="100.2,40.2 51.5,88.8 29.8,67.5 "
+              />
+            </svg>
+          </div>
+          <div *ngIf="failApi">
+            <p class="install-done">
+              Unable to Add {{ addLabel }} in channel , Please try again later.
+            </p>
+            <svg
+              width="90px"
+              (click)="hideAddActivityModel()"
+              version="1.1"
+              id="cross-svg"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              x="0px"
+              y="0px"
+              viewBox="0 0 512 512"
+              enable-background="new 0 0 512 512"
+              xml:space="preserve"
+            >
+              <circle
+                class="path circle"
+                id="cross_circle"
+                fill="none"
+                stroke="rgb(236, 60, 60)"
+                stroke-width="30"
+                stroke-miterlimit="10"
+                cx="256"
+                cy="256"
+                r="225"
+                fill="transparent"
+                stroke-linecap="round"
+                stroke-dashoffset="2000"
+                stroke-dasharray="2000"
+              />
+              <g>
+                <rect
+                  class="path rect-x"
+                  id="cross_p1"
+                  x="239.397"
+                  y="67.518"
+                  rx="17"
+                  ry="17"
+                  transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)"
+                  fill="rgb(236, 60, 60)"
+                />
+              </g>
+              <g>
+                <rect
+                  class="path rect-y"
+                  id="cross_p2"
+                  x="239.397"
+                  y="67.519"
+                  rx="17"
+                  ry="17"
+                  transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)"
+                  fill="rgb(236, 60, 60)"
+                />
+              </g>
+            </svg>
+          </div>
+          <div class="install-progress" *ngIf="!success && !failApi">
+            <p>Addition of {{ addLabel }} in channel is in progress...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

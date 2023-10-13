@@ -1,0 +1,201 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Create Peer</h4>
+            <button (click)="addPeer()" class="btn">Add Peer</button>
+          </div>
+        </div>
+        <div class="col-xl-6" [formGroup]="peerForm">
+          <div class="basic-info">
+            <div class="form-group">
+              <label for="peer-name">Name :</label>
+              <div>
+                <input type="text" class="form-control" formControlName="name" (keypress)="omit_special_char($event)"
+                  id="peer-name" placeholder="e.g.  peer">
+                <span *ngIf="((peerForm.controls.name.touched) && (peerForm.controls.name.errors?.required))"
+                  class="error">Please enter name</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="secret">Enroll Secret :</label>
+              <div class="secret-enroll-box">
+                <input type="{{pwdShow ? 'text' : 'password'}}" class="form-control"
+                  formControlName="peer_enroll_secret" id="secret" placeholder="Secret">
+                <i (click)="pwdShow = !pwdShow" class="far fa-eye"></i>
+                <span
+                  *ngIf="((peerForm.controls.peer_enroll_secret.touched) && (peerForm.controls.peer_enroll_secret.errors?.required))"
+                  class="error">Please enter Secret</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="organisation-dropdown">Consortium Member :</label>
+              <div>
+                <select formControlName="orgId" class="form-control" id="organisation-dropdown">
+                  <option value="">Select Consortium Member</option>
+                  <option *ngFor="let organisation of organisationListData" value="{{organisation._id}}">
+                    {{organisation.name}}</option>
+                </select>
+                <span *ngIf="((peerForm.controls.orgId.touched) && (peerForm.controls.orgId.errors?.required))"
+                  class="error">Please select Consortium Member</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="couch-db-name">Couch DB Username :</label>
+              <div>
+                <input type="text" class="form-control" formControlName="couchdbUsername"
+                  (keypress)="omit_special_char($event)" id="couch-db-name" placeholder="e.g.  admin">
+                <span
+                  *ngIf="((peerForm.controls.couchdbUsername.touched) && (peerForm.controls.couchdbUsername.errors?.required))"
+                  class="error">Please enter Couch DB username</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="couch-db-secret">Couch DB Secret :</label>
+              <div class="secret-enroll-box">
+                <input type="{{pwdShow ? 'text' : 'password'}}" class="form-control" formControlName="couchdbPassword"
+                  id="couch-db-secret" placeholder="Secret">
+                <i (click)="pwdShow = !pwdShow" class="far fa-eye"></i>
+                <span
+                  *ngIf="((peerForm.controls.couchdbPassword.touched) && (peerForm.controls.couchdbPassword.errors?.required))"
+                  class="error">Please enter Couch DB Secret</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="radio-buttons" style="min-width: 135px !important;">Couch DB Access :</label>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" formControlName="isPublic" id="exampleRadios1" value=true
+                  checked>
+                <label class="form-check-label" for="exampleRadios1">
+                  Public
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" formControlName="isPublic" id="exampleRadios2" value=false>
+                <label class="form-check-label" for="exampleRadios2">
+                  Private
+                </label>
+                <span class="error"
+                  *ngIf="((peerForm.controls.isPublic.touched) && (peerForm.controls.isPublic.errors?.required))">Please
+                  Select Couch DB Access
+                </span>
+              </div>
+
+
+            </div>
+            <!-- <div class="form-group">
+                  <label for="radio-buttons">Type :</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
+                    checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                    Endorser
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                  <label class="form-check-label" for="exampleRadios2">
+                    Commiter
+                  </label>
+                </div>
+              </div> -->
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <div class="info-box">
+            <h6>Information</h6>
+            <ul>
+              <li>Peers are a fundamental element of the network because they host ledgers and smart contracts. Ledger
+                immutably records all the transactions generated by smart contracts. Both ledgers and smart contracts
+                are used to encapsulate the shared processes and shared information in a network, respectively. </li>
+              <li>Enter peer name and secret required by the peer to register, and it will enroll automatically with the
+                Certificate Authority (CA).</li>
+              <li>Select the organization which is already attached with the Certificate Authority (CA).</li>
+            </ul>
+            <div id="curvedarrow"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Activity logs</h5>
+      <button *ngIf="closeAble" (click)="hideActivityModel()" class="btn">
+        <span aria-label="close">x</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Sit back and relax while we set up the peer for you. We will run numerous technical processes in the
+            background which are depicted in the following activity logs, so be sure not to exit the window as it will
+            impede the thus far progress made.
+          </p>
+        </div>
+        <div class="logs-box">
+          <div *ngFor="let logs of logsmsg; let i=index"><img src="assets/images/icon-images/{{logs.icon}}"
+              alt="loading"><span>{{logs.msg}}</span></div>
+        </div>
+        <div class="done-icon-box">
+          <div *ngIf="success">
+            <p class="install-done">Congratulations your peer has been created successfully.</p>
+            <svg id="check-svg" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+              <circle class="path circle" fill="none" stroke="#73ae55" stroke-width="6" stroke-miterlimit="10" cx="65.1"
+                cy="65.1" r="62.1" />
+              <polyline class="path check" fill="none" stroke="#73ae55" stroke-width="6" stroke-linecap="round"
+                stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+            </svg>
+          </div>
+
+          <div *ngIf="failApi">
+            <p class="install-done">Unable to create peer, Please try again later.</p>
+            <svg width='90px' version="1.1" id="cross-svg" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
+              enable-background="new 0 0 512 512" xml:space="preserve">
+              <circle class="path circle" id="cross_circle" fill="none" stroke="rgb(236, 60, 60)" stroke-width="30"
+                stroke-miterlimit="10" cx="256" cy="256" r="225" fill="transparent" stroke-linecap="round"
+                stroke-dashoffset="2000" stroke-dasharray="2000" />
+              <g>
+
+                <rect class="path rect-x" id="cross_p1" x="239.397" y="67.518" rx="17" ry="17"
+                  transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)" fill="rgb(236, 60, 60)" />
+              </g>
+              <g>
+
+                <rect class="path rect-y" id="cross_p2" x="239.397" y="67.519" rx="17" ry="17"
+                  transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)" fill="rgb(236, 60, 60)" />
+              </g>
+            </svg>
+          </div>
+
+          <div class="install-progress" *ngIf="!success && !failApi">
+            <p>Installation is in progress...</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #invalidAccess let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Invalid Access</h5>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Please Select network First</p>
+        </div>
+        <div class="modal-footer">
+          <button (click)="goToNetworkList()" class="btn btn-primary">Ok</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

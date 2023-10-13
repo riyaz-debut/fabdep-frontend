@@ -1,0 +1,104 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header-box">
+            <h4>List Ordering Service</h4>
+            <button routerLink="/inner-sidebar/order-service/create" routerLinkActive="router-link-active"
+              class="btn btn-primary">Create
+              Ordering Service</button>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Organisation</th>
+                  <!--<th scope="col">Network</th>-->
+                  <th scope="col">Type</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr *ngFor="let data of records | paginate: { itemsPerPage: 10, currentPage: p }">
+                  <td>{{data.name}}</td>
+                  <td>{{data.organisation.name}}</td>
+                  <!--<td>{{data.name}}</td>-->
+
+                  <td *ngIf="data.ordererType === 1">Raft</td>
+                  <td *ngIf="data.ordererType === 0">Solo</td>
+                  <td>
+                    <i [routerLink]="['view', data._id]" class="far fa-eye" placement="top" ngbTooltip="View"
+                      tooltipClass="tooltip-custom-class"></i>
+
+                    <!-- <i [routerLink]="['edit', data._id]" class="far fa-edit" placement="top" ngbTooltip="Edit" tooltipClass="tooltip-custom-class"></i> -->
+
+                    <span>|</span>
+
+                  </td>
+                </tr>
+                <tr *ngIf="!records.length">
+                  <td class="text-center" colspan="4">No Data Found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+
+        <!--  <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+
+        <pagination-template class="pagination" #pagination="paginationApi" (pageChange)="p = $event">
+
+          <ul *ngIf="records.length" class="pagination">
+
+            <li class="paginate_button page-item">
+              <a (click)="pagination.setCurrent(1)" class="page-link">&laquo;</a>
+            </li>
+
+            <li class="paginate_button page-item previous" [class.disabled]="pagination.isFirstPage()">
+              <a (click)="!pagination.isFirstPage() && pagination.previous()" class="page-link">&lt;</a>
+            </li>
+
+            <li *ngFor="let page of pagination.pages" [class.active]="pagination.getCurrent() === page.value"
+              class="paginate_button page-item">
+              <a (click)="pagination.getCurrent() !== page.value && pagination.setCurrent(page.value)"
+                class="page-link">{{ page.label }}</a>
+            </li>
+
+            <li class="paginate_button page-item next" [class.disabled]="pagination.isLastPage()">
+              <a (click)="!pagination.isLastPage() && pagination.next()" class="page-link">&gt;</a>
+            </li>
+
+            <li class="paginate_button page-item">
+              <a (click)="pagination.setCurrent(pagination.getLastPage())" class="page-link">&raquo;</a>
+            </li>
+
+          </ul>
+
+        </pagination-template>
+
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Invalid Access</h5>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Please Select network First</p>
+        </div>
+        <div class="modal-footer">
+          <button (click)="goToNetworkList()" class="btn btn-primary">Ok</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,59 @@
+<!-- <div class="dashboard">
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-2 remove-padding">
+            <div class="navbar-box">
+                <ul>
+                <li>Network Name</li>
+                  <li><a routerLink="/organisation"><img src="assets/images/cluster-icon-black.png">Organisation</a></li>
+                  <li><a><i class="fas fa-server"></i>Orderer Svc</a></li>
+                  <li><a><img src="assets/images/ca-icon-black.png">Peer</a></li>
+                  <li><a><img src="assets/images/ca-icon-black.png">Channel</a></li>
+                  <li><a><img src="assets/images/cluster-icon-black.png">Chain Code</a></li>
+                  <li><a><img src="assets/images/ca-icon-black.png">Wallet</a></li>
+                </ul>
+              </div>
+        </div>
+        <div class="col-10 remove-padding">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+</div> -->
+
+<!-- <div class="dashboard">
+            <div class="navbar-box">
+                    <ul>
+                    <li>Network Name</li>
+                      <li><a routerLink="/organisation/list"><img src="assets/images/cluster-icon.png">Organisation</a></li>
+                      <li><a routerLink="/network-list"><i class="fas fa-server"></i>Orderer Svc</a></li>
+                      <li><a><img src="assets/images/ca-icon.png">Peer</a></li>
+                      <li><a><img src="assets/images/ca-icon.png">Channel</a></li>
+                      <li><a><img src="assets/images/ca-icon.png">Chain Code</a></li>
+                      <li><a><img src="assets/images/ca-icon.png">Wallet</a></li>
+                    </ul>
+                  </div>
+    <div class="render-box">
+        <router-outlet></router-outlet>
+    </div>
+</div> -->
+
+<div class="main-section">
+  <div class="navbar-box">
+    <ul>
+      <li>Network : {{networkName}}</li>
+      <li><a routerLinkActive="link-active" routerLink="/inner-sidebar/cluster-list/">Cluster-List</a></li>
+      <li><a routerLinkActive="link-active" routerLink="/inner-sidebar/ca/">Certificate Authority</a></li>
+      <li><a routerLinkActive="link-active" routerLink="/inner-sidebar/orderer">Orderer</a></li>
+      <li><a routerLinkActive="link-active" routerLink="/inner-sidebar/consortium-member">Consortium Member</a></li>
+      <li><a routerLinkActive="link-active" routerLink="/inner-sidebar/peer">Peer</a></li>
+      <li><a routerLinkActive="link-active" routerLink="/inner-sidebar/order-service">Orderer Svc</a></li>
+      <li><a routerLinkActive="link-active" routerLink="/inner-sidebar/channel">Channel</a></li>
+      <li><a routerLinkActive="link-active" routerLink="/inner-sidebar/chaincode/">Chain Code</a></li>
+      <li><a routerLinkActive="link-active" routerLink="/inner-sidebar/wallet/">Wallet</a></li>
+    </ul>
+  </div>
+  <div class="render">
+    <router-outlet></router-outlet>
+  </div>
+</div>

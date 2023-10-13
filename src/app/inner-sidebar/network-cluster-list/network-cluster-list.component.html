@@ -1,0 +1,323 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <!-- ///////////////////// Spinner      -->
+      <div class="side-menu-overlay" *ngIf="this.loading">
+        <div class="spinner-border spinner_dasboard" role="status"></div>
+      </div>
+      <!-- /////////////// -->
+      <div class="row">
+        <div class="col-12">
+          <div class="header-box">
+            <h4>Cluster List</h4>
+            <div class="button-box" [formGroup]="networkClusterForm">
+              <ng-container *ngIf="select_box">
+                <!-- <select formControlName="cluster_id" id="cluster_id" class="form-control" data-placeholder="Select Cluster" multiple> -->
+                <select
+                  formControlName="cluster_id"
+                  id="cluster_id"
+                  class="form-control"
+                  data-placeholder=""
+                  multiple
+                >
+                  <!-- <option value="1">Select Cluster</option> -->
+                  <option
+                    *ngFor="let cluster of allClusters"
+                    value="{{ cluster._id }}"
+                    >{{ cluster.name }}</option
+                  >
+                  <!-- <option value="abc">abc</option>
+                        <option value="abc">abc</option> -->
+                </select>
+              </ng-container>
+              <button
+                *ngIf="add_more_btn"
+                (click)="addSelectBox()"
+                class="btn btn-primary"
+              >
+                Add More
+              </button>
+              <button
+                *ngIf="save_btn"
+                (click)="addCluster()"
+                class="btn btn-primary"
+              >
+                Save
+              </button>
+              <button
+                *ngIf="cancel_btn"
+                (click)="deleteSelectBox()"
+                class="btn cancel-button"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Master IP</th>
+                  <th scope="col">Worker</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let data of records
+                      | paginate: { itemsPerPage: 5, currentPage: p }
+                  "
+                >
+                  <td><span class="name-circle">NC</span>{{ data.name }}</td>
+                  <td>{{ data.master_node.ip }}</td>
+                  <td>{{ data.worker_node.length }}</td>
+                  <td>
+                    <i
+                      class="fas"
+                      [ngClass]="
+                        data.status
+                          ? 'fa-arrow-up text-success'
+                          : 'fa-arrow-down text-dark'
+                      "
+                    ></i>
+                  </td>
+                  <td>
+                    <i
+                      (click)="reDirect(data._id)"
+                      class="fas fa-tachometer-alt"
+                      placement="top"
+                      ngbTooltip="Dashboard"
+                      tooltipClass="tooltip-custom-class"
+                    >
+                    </i>
+                  </td>
+                </tr>
+                <tr *ngIf="!records.length">
+                  <td></td>
+                  <td colspan="2" class="text-center">No Data Found.</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <!--  <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+
+        <pagination-template
+          class="pagination"
+          #pagination="paginationApi"
+          (pageChange)="p = $event"
+        >
+          <ul *ngIf="records.length" class="pagination">
+            <li class="paginate_button page-item">
+              <a (click)="pagination.setCurrent(1)" class="page-link"
+                >&laquo;</a
+              >
+            </li>
+
+            <li
+              class="paginate_button page-item previous"
+              [class.disabled]="pagination.isFirstPage()"
+            >
+              <a
+                (click)="!pagination.isFirstPage() && pagination.previous()"
+                class="page-link"
+                >&lt;</a
+              >
+            </li>
+
+            <li
+              *ngFor="let page of pagination.pages"
+              [class.active]="pagination.getCurrent() === page.value"
+              class="paginate_button page-item"
+            >
+              <a
+                (click)="
+                  pagination.getCurrent() !== page.value &&
+                    pagination.setCurrent(page.value)
+                "
+                class="page-link"
+                >{{ page.label }}</a
+              >
+            </li>
+
+            <li
+              class="paginate_button page-item next"
+              [class.disabled]="pagination.isLastPage()"
+            >
+              <a
+                (click)="!pagination.isLastPage() && pagination.next()"
+                class="page-link"
+                >&gt;</a
+              >
+            </li>
+
+            <li class="paginate_button page-item">
+              <a
+                (click)="pagination.setCurrent(pagination.getLastPage())"
+                class="page-link"
+                >&raquo;</a
+              >
+            </li>
+          </ul>
+        </pagination-template>
+      </div>
+    </div>
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Activity logs</h5>
+        <button *ngIf="closeAble" (click)="hideActivityModel()" class="btn">
+          <span aria-label="close">x</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="parent-box">
+          <div class="below-header">
+            <p>
+              Sit back and relax while we set up the channel for you. We will
+              run numerous technical processes in the background which are
+              depicted in the following activity logs, so be sure not to exit
+              the window as it will impede the thus far progress made.
+            </p>
+          </div>
+          <div class="logs-box">
+            <div *ngFor="let logs of logsmsg; let i = index">
+              <img
+                src="assets/images/icon-images/{{ logs.icon }}"
+                (click)="
+                  logs.success == 'no'
+                    ? rehitApi(
+                        logs.index,
+                        logs.data,
+                        logs.loopIndex,
+                        logs.clusterName
+                      )
+                    : ''
+                "
+                alt="loading"
+              /><span>{{ logs.msg }}</span>
+            </div>
+          </div>
+          <div class="done-icon-box">
+            <div *ngIf="checkallapis">
+              <p class="install-done">
+                Congratulations, cluster(s) added to network successfully.
+              </p>
+              <svg
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 130.2 130.2"
+              >
+                <circle
+                  class="path circle"
+                  fill="none"
+                  stroke="#a2e774"
+                  stroke-width="6"
+                  stroke-miterlimit="10"
+                  cx="65.1"
+                  cy="65.1"
+                  r="62.1"
+                />
+                <polyline
+                  class="path check"
+                  fill="none"
+                  stroke="#a2e774"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                  stroke-miterlimit="10"
+                  points="100.2,40.2 51.5,88.8 29.8,67.5 "
+                />
+              </svg>
+            </div>
+            <div *ngIf="failApi">
+              <p class="install-done">
+                Unable to add cluster to network, Please try again later.
+              </p>
+              <svg
+                width="90px"
+                version="1.1"
+                id="cross-svg"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                viewBox="0 0 512 512"
+                enable-background="new 0 0 512 512"
+                xml:space="preserve"
+              >
+                <circle
+                  class="path circle"
+                  id="cross_circle"
+                  fill="none"
+                  stroke="rgb(236, 60, 60)"
+                  stroke-width="30"
+                  stroke-miterlimit="10"
+                  cx="256"
+                  cy="256"
+                  r="225"
+                  fill="transparent"
+                  stroke-linecap="round"
+                  stroke-dashoffset="2000"
+                  stroke-dasharray="2000"
+                />
+                <g>
+                  <rect
+                    class="path rect-x"
+                    id="cross_p1"
+                    x="239.397"
+                    y="67.518"
+                    rx="17"
+                    ry="17"
+                    transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)"
+                    fill="rgb(236, 60, 60)"
+                  />
+                </g>
+                <g>
+                  <rect
+                    class="path rect-y"
+                    id="cross_p2"
+                    x="239.397"
+                    y="67.519"
+                    rx="17"
+                    ry="17"
+                    transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)"
+                    fill="rgb(236, 60, 60)"
+                  />
+                </g>
+              </svg>
+            </div>
+            <div class="install-progress" *ngIf="!checkallapis && !failApi">
+              <p>Installation is in progress...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template #invalidAccess let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Invalid Access</h5>
+      </div>
+      <div class="modal-body">
+        <div class="parent-box">
+          <div class="below-header">
+            <p>Please Select network First</p>
+          </div>
+          <div class="modal-footer">
+            <button (click)="goToNetworkList()" class="btn btn-primary">
+              Ok
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

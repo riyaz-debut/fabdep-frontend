@@ -1,0 +1,220 @@
+<div class="main-section">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <!-- //////////// -->
+      <div class="side-menu-overlay" *ngIf="this.loading">
+        <div class="spinner-border spinner_dasboard" role="status"></div>
+      </div>
+      <!-- ////////////////// -->
+      <div class="row">
+        <div class="col-12">
+          <div class="header-box">
+            <h4>
+              <img src="assets/images/cluster-icon-black.png" alt="" />Cluster
+              List
+            </h4>
+            <button
+              routerLink="/cluster/create-cluster"
+              routerLinkActive="router-link-active"
+              class="btn btn-primary"
+            >
+              Create New Cluster
+            </button>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Master IP</th>
+                <th scope="col">Worker</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let data of records
+                    | paginate: { itemsPerPage: 5, currentPage: p }
+                "
+              >
+                <td><span class="name-circle">NC</span>{{ data.name }}</td>
+                <td>{{ data.masterNode.ip }}</td>
+                <td>{{ data.worker_node.length }}</td>
+                <td>
+                  <i
+                    class="fas"
+                    [ngClass]="
+                      data.status
+                        ? 'fa-arrow-up text-success'
+                        : 'fa-arrow-down text-dark'
+                    "
+                  ></i>
+                </td>
+                <td>
+                  <i
+                    [routerLink]="['edit-cluster', data._id]"
+                    class="far fa-edit"
+                    placement="top"
+                    ngbTooltip="Edit"
+                    tooltipClass="tooltip-custom-class"
+                  ></i>
+                  <!-- <i *ngIf="data.dashboard_url" (click) = "reDirect(data.dashboard_url)" class="fas fa-tachometer-alt" placement="top"
+                    ngbTooltip="Dashboard" tooltipClass="tooltip-custom-class">
+                  </i> -->
+                  <i
+                    (click)="reDirect(data._id)"
+                    class="fas fa-tachometer-alt"
+                    placement="top"
+                    ngbTooltip="Dashboard"
+                    tooltipClass="tooltip-custom-class"
+                  >
+                  </i>
+                </td>
+              </tr>
+              <tr *ngIf="!records.length">
+                <td></td>
+                <td class="text-center">No Data Found.</td>
+                <td colspan="3"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="footer">
+        <!--  <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+
+        <pagination-template
+          class="pagination"
+          #pagination="paginationApi"
+          (pageChange)="p = $event"
+        >
+          <ul *ngIf="records.length" class="pagination">
+            <li class="paginate_button page-item">
+              <a (click)="pagination.setCurrent(1)" class="page-link"
+                >&laquo;</a
+              >
+            </li>
+
+            <li
+              class="paginate_button page-item previous"
+              [class.disabled]="pagination.isFirstPage()"
+            >
+              <a
+                (click)="!pagination.isFirstPage() && pagination.previous()"
+                class="page-link"
+                >&lt;</a
+              >
+            </li>
+
+            <li
+              *ngFor="let page of pagination.pages"
+              [class.active]="pagination.getCurrent() === page.value"
+              class="paginate_button page-item"
+            >
+              <a
+                (click)="
+                  pagination.getCurrent() !== page.value &&
+                    pagination.setCurrent(page.value)
+                "
+                class="page-link"
+                >{{ page.label }}</a
+              >
+            </li>
+
+            <li
+              class="paginate_button page-item next"
+              [class.disabled]="pagination.isLastPage()"
+            >
+              <a
+                (click)="!pagination.isLastPage() && pagination.next()"
+                class="page-link"
+                >&gt;</a
+              >
+            </li>
+
+            <li class="paginate_button page-item">
+              <a
+                (click)="pagination.setCurrent(pagination.getLastPage())"
+                class="page-link"
+                >&raquo;</a
+              >
+            </li>
+          </ul>
+        </pagination-template>
+      </div>
+    </div>
+
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Activation Logs</h5>
+      </div>
+      <div class="modal-body">
+        <div class="parent-box">
+          <div class="below-header">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
+              dolor sit amet consectetur
+            </p>
+          </div>
+          <div class="logs-box">
+            <div>
+              <img
+                src="assets/images/icon-images/check.png"
+                alt="check image"
+              /><span>ipsum dolor sit amet consectetur adipisicing</span>
+            </div>
+            <div>
+              <img
+                src="assets/images/icon-images/cross.png"
+                alt="cross image"
+              /><span>ipsum dolor sit amet consectetur adipisicing</span>
+            </div>
+            <div>
+              <img
+                src="assets/images/icon-images/loader.gif"
+                alt="loading"
+              /><span>ipsum dolor sit amet consectetur adipisicing</span>
+            </div>
+            <div>
+              <img
+                src="assets/images/icon-images/loader.gif"
+                alt="loading"
+              /><span>ipsum dolor sit amet consectetur adipisicing</span>
+            </div>
+          </div>
+          <div class="done-icon-box">
+            <svg
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 130.2 130.2"
+            >
+              <circle
+                class="path circle"
+                fill="none"
+                stroke="#73AF55"
+                stroke-width="6"
+                stroke-miterlimit="10"
+                cx="65.1"
+                cy="65.1"
+                r="62.1"
+              />
+              <polyline
+                class="path check"
+                fill="none"
+                stroke="#73AF55"
+                stroke-width="6"
+                stroke-linecap="round"
+                stroke-miterlimit="10"
+                points="100.2,40.2 51.5,88.8 29.8,67.5 "
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header-box">
+            <h4>Certificate Authority list</h4>
+            <button routerLink="/inner-sidebar/ca/create-ca/" routerLinkActive="router-link-active"
+              class="btn btn-primary">Create New
+              CA</button>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Network</th>
+                <th scope="col">Port</th>
+                <th scope="col">Cluster</th>
+                <th scope="col">Admin Id</th>
+                <th scope="col">Type</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let CA of certificateAuthorityData | paginate: { itemsPerPage: 10, currentPage: p }">
+
+                <!-- <td routerLink="/inner-sidebar/ca/view-ca/{{CA._id}}">{{CA.name}}</td> -->
+                <td>{{CA.name}}</td>
+
+                <td>{{CA.network.name}}</td>
+                <td>{{CA.port}}</td>
+                <td>{{CA.cluster.name}}</td>
+                <td>{{CA.admnId}}</td>
+                <td>{{CA.isTLS == 1 ? 'TLS' :'Basic'}}</td>
+                <td>
+                  <i routerLink="/inner-sidebar/ca/view-ca/{{CA._id}}" class="far fa-eye" placement="top"
+                    ngbTooltip="View" tooltipClass="tooltip-custom-class"></i>
+
+                  <!-- <i routerLink="/inner-sidebar/ca/edit-ca/{{CA._id}}" class="far fa-edit" placement="top"
+                    ngbTooltip="Edit" tooltipClass="tooltip-custom-class"></i> -->
+
+
+                  <!-- <i class="far fa-trash-alt" placement="top" ngbTooltip="Delete" tooltipClass="tooltip-custom-class"></i> -->
+                </td>
+              </tr>
+              <tr *ngIf="!certificateAuthorityData.length">
+                <td class="text-center" colspan="7">No Data Found.</td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </div>
+      <div class="footer">
+
+        <!--  <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+
+        <pagination-template class="pagination" #pagination="paginationApi" (pageChange)="p = $event">
+
+          <ul *ngIf="certificateAuthorityData.length" class="pagination">
+
+            <li class="paginate_button page-item">
+              <a (click)="pagination.setCurrent(1)" class="page-link">&laquo;</a>
+            </li>
+
+            <li class="paginate_button page-item previous" [class.disabled]="pagination.isFirstPage()">
+              <a (click)="!pagination.isFirstPage() && pagination.previous()" class="page-link">&lt;</a>
+            </li>
+
+            <li *ngFor="let page of pagination.pages" [class.active]="pagination.getCurrent() === page.value"
+              class="paginate_button page-item">
+              <a (click)="pagination.getCurrent() !== page.value && pagination.setCurrent(page.value)"
+                class="page-link">{{ page.label }}</a>
+            </li>
+
+            <li class="paginate_button page-item next" [class.disabled]="pagination.isLastPage()">
+              <a (click)="!pagination.isLastPage() && pagination.next()" class="page-link">&gt;</a>
+            </li>
+
+            <li class="paginate_button page-item">
+              <a (click)="pagination.setCurrent(pagination.getLastPage())" class="page-link">&raquo;</a>
+            </li>
+
+          </ul>
+
+        </pagination-template>
+
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Invalid Access</h5>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Please select the Network First</p>
+        </div>
+        <div class="modal-footer">
+          <button (click)="goToNetworkList()" class="btn btn-primary">Ok</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

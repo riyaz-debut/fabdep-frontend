@@ -1,0 +1,208 @@
+@import "../../../../variables";
+
+.main-section {
+  // padding-left: 12px;
+  // height: 100%;
+  height: 100%;
+  .inner-section {
+    background: $white;
+    // height: calc(100vh + -103px);
+    overflow-y: auto;
+    height: 100%;
+    // padding-bottom: 1rem;
+    // box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+
+    .header-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px;
+      border-bottom: 2px dashed $headingBorder;
+      margin-bottom: 20px;
+      padding: 14px;
+      h4 {
+        color: $primary;
+        font-weight: 600;
+        margin: 0;
+      }
+      .btn {
+        font-weight: 500;
+        background: $buttonColor;
+        border-color: $buttonColor;
+        font-size: 13px;
+        padding: 0.375rem 0.5rem;
+        &:focus {
+          box-shadow: none;
+        }
+        &:hover {
+          background-color: $white;
+          color: $buttonColor;
+        }
+      }
+    }
+    .header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      border-bottom: 2px dashed $headingBorder;
+      margin-bottom: 20px;
+      padding: 14px;
+
+      h4 {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        color: $primary;
+        font-weight: 600;
+      }
+
+      .btn {
+        position: absolute;
+        right: 0;
+        // width: 92px;
+        background: $buttonColor;
+        color: $white;
+        font-weight: 500;
+        font-size: 13px;
+        padding: 0.375rem 0.5rem;
+        border-color: $buttonColor;
+        // width: 100%;
+        // max-width: 210px;
+
+        &:hover {
+          background: $white;
+          color: $buttonColor;
+          border: 1px solid $buttonColor;
+        }
+      }
+      .btn-import {
+        right: 130px;
+      }
+    }
+
+    .table {
+      font-size: 14px;
+      margin: 0;
+      border: 1px solid $headingBorder;
+      thead {
+        text-align: center;
+        font-size: 14px;
+        tr {
+          th {
+            padding: 10px 5px;
+            letter-spacing: 0.5px;
+            border: 0;
+            // width: 20%;
+            // &:nth-child(4), &:nth-child(5) {
+            //   width: 10%;
+            // }
+            &:nth-child(1) {
+              text-align: left;
+              padding-left: 16px;
+            }
+          }
+        }
+      }
+      tbody {
+        text-align: center;
+        background-color: $white;
+        font-size: 12px;
+        tr {
+          th,
+          td {
+            padding: 10px 5px;
+            vertical-align: middle;
+            &:nth-child(1) {
+              text-align: left;
+              padding-left: 16px;
+            }
+            &:last-child {
+              span {
+                opacity: 0;
+              }
+              i {
+                margin: 0 8px;
+                cursor: pointer;
+                &:after {
+                  content: "\007C";
+                }
+              }
+            }
+            // .fa-arrow-up {
+            //   color: $green;
+            // }
+            // .fa-arrow-down {
+            //   color: red;
+            // }
+          }
+        }
+      }
+    }
+  }
+}
+.save-btn {
+  // position: absolute;
+  // right: 0;
+  background: $buttonColor;
+  color: $white;
+  // font-weight: 500;
+  font-size: 17px;
+  // padding: 0.375rem 0.5rem;
+  width: 95px;
+
+  &:hover {
+    background: $white;
+    color: $buttonColor;
+    border: 1px solid $buttonColor;
+  }
+}
+
+.cstm-erorr{
+  top: 80px;
+
+}
+.inputfile-box {
+  // width: 350px;
+  width: 100%;
+
+  label {
+    width: 100%;
+    cursor: pointer;
+
+    .file-box {
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 13px;
+      display: inline-block;
+      width: 100%;
+      padding: 5px 0px 5px 16px;
+      box-sizing: border-box;
+      height: calc(2rem - 2px);
+    }
+
+    .file-button {
+      background: #0568ae;
+      color: white;
+      border-radius: 0 4px 4px 0;
+      padding: 0 6px;
+      display: flex;
+      align-items: center;
+      height: 30px;
+      font-size: 11px;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+
+      i {
+        font-size: 9px;
+        margin-right: 5px;
+      }
+    }
+  }
+}
+.inputfile {
+  display: none;
+}
+.inputfile-box {
+  position: relative;
+}

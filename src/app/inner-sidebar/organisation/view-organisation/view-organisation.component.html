@@ -1,0 +1,56 @@
+<div class="main-section animated fadeIn">
+    <div class="inner-section">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="header">
+              <h4>View Consortium Member</h4>
+              <button *ngIf="records && (records.type === 0 || records.type === 1)" (click)="dynamicDownloadJson()" class="btn btn-export">Export</button>
+              <!-- <button (click)="uploadDocument()" class="btn btn-export">Export</button> -->
+              <button routerLink="/inner-sidebar/consortium-member" class="btn">Back to List</button>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="basic-info">
+              <div class="form-group">
+                <label for="name">Name :</label>
+                <div class="static-text">{{records ? records.name : '' }}</div>
+              </div>
+              <div class="form-group">
+                  <label for="MSP">MSP :</label>
+                <div class="static-text">{{records ? records.mspId :  ''}}</div>
+              </div>
+              <div class="form-group">
+                <label for="type">Type :</label>
+                <div class="static-text" *ngIf="records && records.type === 0">Peer</div>
+                <div class="static-text" *ngIf="records && records.type === 1">Orderer</div>
+                <div class="static-text" *ngIf="records && records.type === 2">Imported</div>
+              </div>
+              <div class="form-group">
+                <label for="CA">CA :</label>
+                <div class="static-text">{{records ? records.caId ? records.caId.name : 'N/A' : ''}}</div>
+              </div>
+              <div class="form-group">
+                <label for="tls-ca">TLS CA :</label>
+                <div class="static-text">{{records ? records.tlsCaId ? records.tlsCaId.name : 'N/A' : ''}}</div>
+              </div>
+              <div class="form-group">
+                <label for="tls-ca">Created Date :</label>
+                <div class="static-text">{{records ? (records.created_at | date: 'medium' : 'locale') : ''}}</div>
+              </div>
+              <!--<div class="form-group">
+                <label for="network">Network :</label>
+                <div class="static-text">{{records.networkId}}</div>
+              </div>-->
+              <!-- <div class="button">
+                    <button class="btn">Back</button>
+              </div> -->
+
+              <!-- <input type='file' (change)="fileChanged($event)"> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

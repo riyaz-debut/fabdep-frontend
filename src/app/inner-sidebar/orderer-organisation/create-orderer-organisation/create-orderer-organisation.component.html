@@ -1,0 +1,212 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Create Orderer</h4>
+            <button class="btn" (click)="addOrganisation()">Add Orderer</button>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <form [formGroup]="organisationForm">
+            <input type="hidden" formControlName="adminId" />
+            <div class="basic-info">
+              <div class="form-group">
+                <label for="organisation-name">Name :</label>
+                <div>
+                  <input type="text" class="form-control" formControlName="name" (keypress)="omit_special_char($event)"
+                    id="organisation-name" placeholder="e.g. orderer">
+                  <span
+                    *ngIf="((organisationForm.controls.name.touched) && (organisationForm.controls.name.errors?.required))"
+                    class="error">Please enter Orderer name</span>
+
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="MSP">MSP :</label>
+                <div>
+                  <input type="text" class="form-control" formControlName="mspId" (keypress)="special_char($event)"
+                    id="MSP" placeholder="e.g.  orderer-msp">
+                  <span
+                    *ngIf="((organisationForm.controls['mspId'].touched) && (organisationForm.controls['mspId'].errors?.required))"
+                    class="error">Please enter MSP </span>
+
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="clusterId">Cluster :</label>
+                <div>
+                  <select formControlName="clusterId" class="form-control" id="clusterId">
+                    <option value="">Please select Cluster</option>
+                    <option *ngFor="let cluster of clusterList" [value]="cluster._id">
+                      {{cluster.name}}
+                    </option>
+
+                  </select>
+                  <span
+                    *ngIf="((organisationForm.controls['clusterId'].touched) && (organisationForm.controls['clusterId'].errors?.required))"
+                    class="error">Please select cluster </span>
+
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="CA-dropdown">Root CA :</label>
+                <div>
+                  <select formControlName="caId" (change)="getAdmin(null)" class="form-control" id="CA-dropdown">
+                    <option value="">Please select Root CA</option>
+                    <option *ngFor="let ca of caList" [value]="ca._id">
+                      {{ca.name}}
+                    </option>
+
+                  </select>
+                  <span
+                    *ngIf="((organisationForm.controls['caId'].touched) && (organisationForm.controls['caId'].errors?.required))"
+                    class="error">Please select Root CA </span>
+
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="TLS-CA-dropdown">CA Admin :</label>
+                <div>
+                  <div class="admin-select-box">
+                    <select formControlName="adminId" class="form-control" id="CA-Admin-dropdown">
+                      <option value="">Please select CA Admin </option>
+                      <option *ngFor="let admin of adminList" [value]="admin._id">
+                        {{admin.admnId}}
+                      </option>
+                    </select>
+                    <span *ngIf="adding_admin_loading_img" class="loading"><img
+                        src="assets/images/icon-images/loader.gif" alt="loader"></span>
+                    <button *ngIf="add_new_admin_button" (click)="addAdmin()" class="btn"><i
+                        [ngClass]="!showAdmin ? 'fa-plus' : 'fa-minus'" class="fa"></i></button>
+                  </div>
+                  <span
+                    *ngIf="((organisationForm.controls['adminId'].touched) && (organisationForm.controls['adminId'].errors?.required))"
+                    class="error">Please select CA Admin </span>
+                </div>
+              </div>
+              <div *ngIf="showAdmin" class="form-group">
+                <label for="admin-username">AdminId :</label>
+                <div>
+                  <input formControlName="newAdminId" type="text" class="form-control" id="admin-username"
+                    placeholder="Admin Username">
+                  <span
+                    *ngIf="((organisationForm.controls['newAdminId'].touched) && (organisationForm.controls['newAdminId'].errors?.required))"
+                    class="error">Please enter username</span>
+                </div>
+              </div>
+              <div *ngIf="showAdmin" class="form-group">
+                <label for="admin-passowrd">Admin Secret :</label>
+                <div class="showAdmin">
+                  <input formControlName="newAdminSecret" type="{{pwdShow ? 'text' : 'password'}}" class="form-control"
+                    id="admin-passowrd" placeholder="Admin Passowrd">
+                  <i (click)="pwdShow = !pwdShow" class="far fa-eye"></i>
+                  <span
+                    *ngIf="((organisationForm.controls['newAdminSecret'].touched) && (organisationForm.controls['newAdminSecret'].errors?.required))"
+                    class="error">Please enter password</span>
+
+                </div>
+              </div>
+              <div *ngIf="showAdmin" class="form-group">
+                <label></label>
+                <div class="add-admin">
+                  <button (click)="addNewAdmin()" class="btn">Save Admin</button>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+        <div class="col-xl-6">
+          <div class="info-box">
+            <h6>Information</h6>
+            <ul>
+              <li>All orderers belong to an organization that must be created before the creation of the orderer itself. This organization has a definition encapsulated by a Membership Service Provider (MSP) that is created by a Certificate Authority (CA) dedicated to creating certificates and MSPs.</li>
+              <li>Select the Kubernetes cluster where your ordering service nodes will be deployed.</li>
+              <li>Select the Certificate Authority (CA) dedicated to creating certificates and MSP for the organization.</li>
+              <li>Select the organization admin if already created or create a new one.</li>
+            </ul>
+            <div id="curvedarrow"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Activity logs</h5>
+      <button *ngIf="closeAble" (click)="hideActivityModel()" class="btn">
+        <span aria-label="close">x</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Sit back and relax while we set up the orderer for you. We will run numerous technical processes in the
+            background which are depicted in the following activity logs, so be sure not to exit the window as it will
+            impede the thus far progress made.
+          </p>
+        </div>
+        <div class="logs-box">
+
+          <div *ngFor="let logs of logsmsg; let i=index"><img src="assets/images/icon-images/{{logs.icon}}"
+              alt="loading"><span>{{logs.msg}}</span></div>
+        </div>
+        <div class="done-icon-box">
+          <div *ngIf="checkallapis">
+            <p class="install-done">Orderer has been created Succesfully.</p>
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+              <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1"
+                cy="65.1" r="62.1" />
+              <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round"
+                stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+            </svg>
+          </div>
+          <div *ngIf="failApi">
+            <p class="install-done">Unable to create orderer, Please try again latar.</p>
+            <svg width='90px' (click)="hideActivityModel()" version="1.1" id="cross-svg"
+              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+              viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+              <circle class="path circle" id="cross_circle" fill="none" stroke="rgb(236, 60, 60)" stroke-width="30"
+                stroke-miterlimit="10" cx="256" cy="256" r="225" fill="transparent" stroke-linecap="round"
+                stroke-dashoffset="2000" stroke-dasharray="2000" />
+              <g>
+
+                <rect class="path rect-x" id="cross_p1" x="239.397" y="67.518" rx="17" ry="17"
+                  transform="matrix(0.7071 0.7071 -0.7071 0.7071 255.9995 -106.0389)" fill="rgb(236, 60, 60)" />
+              </g>
+              <g>
+
+                <rect class="path rect-y" id="cross_p2" x="239.397" y="67.519" rx="17" ry="17"
+                  transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.039 256.0001)" fill="rgb(236, 60, 60)" />
+              </g>
+            </svg>
+          </div>
+          <div class="install-progress" *ngIf="!checkallapis && !failApi">
+            <p>Installation is in progress...</p>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #invalidAccess let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Invalid Access</h5>
+    </div>
+    <div class="modal-body">
+      <div class="parent-box">
+        <div class="below-header">
+          <p>Please Select network First</p>
+        </div>
+        <div class="modal-footer">
+          <button (click)="goToNetworkList()" class="btn btn-primary">Ok</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,47 @@
+<div class="navbar-box">
+  <ul>
+    <li>
+      <a id="sub-menu" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+        aria-controls="collapseExample" >
+        <img src="assets/images/cluster-icon-white.png">
+        Cluster
+        <i class="fas fa-sort-down"></i>
+      </a>
+      <div class="animated fadeIn show" id="collapseExample" [ngbCollapse]="isCollapsed">
+        <ul>
+          <li><a routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}"  routerLink="/cluster" href="#">List</a></li>
+          <li><a routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}" routerLink="/cluster/create-cluster" href="#">Create</a></li>
+        </ul>
+      </div>
+    </li>
+    <li>
+      <a id="sub-menu" (click)="MenuTwoIsCollapsed = !MenuTwoIsCollapsed" [attr.aria-expanded]="!MenuTwoIsCollapsed"
+        aria-controls="collapseExample-2">
+        <i class="fas fa-server"></i>
+        Network
+        <i class="fas fa-sort-down"></i>
+      </a>
+      <div class="animated fadeIn" id="collapseExample-2" [ngbCollapse]="!MenuTwoIsCollapsed">
+        <ul>
+          <li><a routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}" routerLink="/network">List</a></li>
+          <li><a routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}" routerLink="/network/create-network">Create</a></li>
+        </ul>
+      </div>
+    </li>
+    <!-- <li><a routerLink="/network-list"><i class="fas fa-server"></i>Network</a></li> -->
+    <!-- <li>
+      <a id="sub-menu" (click)="MenuThreeIsCollapsed = !MenuThreeIsCollapsed" [attr.aria-expanded]="!MenuThreeIsCollapsed" aria-controls="collapseExample-3">
+        <img src="assets/images/ca-icon-white.png">
+        CA
+        <i class="fas fa-sort-down"></i>
+      </a>
+        <div class="animated fadeIn" id="collapseExample-3" [ngbCollapse]="!MenuThreeIsCollapsed">
+          <ul>
+            <li><a routerLink="/ca">List</a></li>
+            <li><a routerLink="/ca/create-ca">Create</a></li>
+          </ul>
+        </div>
+      </li> -->
+    <!-- <li><a><img src="assets/images/ca-icon.png">CA</a></li> -->
+  </ul>
+</div>

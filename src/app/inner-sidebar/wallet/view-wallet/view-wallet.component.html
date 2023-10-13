@@ -1,0 +1,54 @@
+<div class="main-section animated fadeIn">
+  <div class="inner-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">
+            <h4>Wallet details</h4>
+            <button routerLink="/inner-sidebar/wallet" class="btn">Back to
+              List</button>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="basic-info">
+            <div class="form-group">
+              <label for="name">Network Name :</label>
+              <div class="static-text">{{walletView ?  walletView.caId['networkId'].name : ''}}</div>
+            </div>
+             <div class="form-group">
+              <label for="type">Identity Type :</label>
+              <div class="static-text">
+                  {{walletView ? walletView.identityType : ''}}
+              </div>
+            </div>
+            <div class="form-group">
+               <label for="cluster">CA name :</label>
+               <div class="static-text">
+                 {{walletView ? walletView.caId ? walletView.caId.name : '' : ''}}
+ 
+               </div>
+             </div> 
+            <div class="form-group">
+              <label for="network">CA admin :</label>
+              <div class="static-text">
+                {{walletView ? walletView.admnId :''}}
+              </div>
+            </div>
+             <div class="form-group">
+              <label for="admin-id">Port :</label>
+              <div class="static-text">{{walletView ? walletView.caId.port:''}}</div>
+            </div>
+             <div class="form-group">
+              <label for="port">Type :</label>
+              <div class="static-text">{{walletView? walletView.caId.isTLS == '0' ? 'Basic' : 'TLS' : ''}}</div>
+            </div>
+            <div class="form-group">
+              <label for="created-dt">Created Date :</label>
+              <div class="static-text">{{walletView ?  (walletView.created_at  | date: 'medium' : 'locale' ) : ''}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
